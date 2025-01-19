@@ -30,7 +30,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
       message: (props) => `${props.value} is not a valid Email ID`,
     },
   },
-  password: { type: String, required: true },
+  password: { type: String, required: [true, "Password required"] },
   role: { type: String, enum: ["admin", "user"], default: "user" },
 });
 
