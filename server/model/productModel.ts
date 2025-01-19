@@ -2,7 +2,6 @@ import { model, Model, Schema } from "mongoose";
 import { z } from "zod";
 
 export const ZProduct = z.object({
-  id: z.number().int(),
   title: z.string(),
   image: z.string(),
   price: z.number(),
@@ -14,6 +13,12 @@ export const ZProduct = z.object({
   discount: z.number().optional(),
   popular: z.boolean().optional(),
   onSale: z.boolean().optional(),
+});
+
+export const ZProducts = ZProduct.or(z.array(ZProduct)).transform((val) => {
+  if (Array.isArray(val)) return val;
+
+  return [val];
 });
 
 interface IProduct {

@@ -5,11 +5,12 @@ import {
   getProductByQuery,
   updateProduct,
 } from "../controller/productController";
+import wrap from "../utils/wrap";
 
 const productRouter = express.Router();
 
-productRouter.route("/").get(getProductByQuery).post(addProducts);
+productRouter.route("/").get(wrap(getProductByQuery)).post(wrap(addProducts));
 
-productRouter.route("/:id").put(updateProduct).delete(delProduct);
+productRouter.route("/:id").put(wrap(updateProduct)).delete(wrap(delProduct));
 
 export default productRouter;
