@@ -1,5 +1,6 @@
 import { model, Model, Schema } from "mongoose";
 import { z } from "zod";
+import bcrypt from "bcrypt";
 
 interface IUser {
   firstname: string;
@@ -31,6 +32,13 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   },
   password: { type: String, required: true },
   role: { type: String, enum: ["admin", "user"], default: "user" },
+});
+
+userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  next();
 });
 
 const User = model<IUser, UserModel>("user", userSchema);
