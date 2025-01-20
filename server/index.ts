@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import "./utils/dbConnect";
-import productRouter from "./router/productRoute";
+import productRouter from "./router/productRouter";
 import { errorHandler, routeNotFound } from "./utils/errorFn";
 import cors from "cors";
 import passport from "passport";
@@ -9,7 +9,11 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
-import authRouter from "./router/authRoute";
+import authRouter from "./router/authRouter";
+import cartRouter from "./router/cartRouter";
+import addressRouter from "./router/addressRouter";
+import reviewRouter from "./router/reviewRouter";
+// import { seedFn } from "./utils/seed";
 
 const app = express();
 
@@ -37,12 +41,16 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+  // await seedFn();
   res.send("Hello, World!");
 });
 
 app.use("/auth", authRouter);
 app.use("/product", productRouter);
+app.use("/cart", cartRouter);
+app.use("/address", addressRouter);
+app.use("/review", reviewRouter);
 
 app.use(routeNotFound);
 app.use(errorHandler);

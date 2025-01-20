@@ -1,6 +1,6 @@
 import express from "express";
 import wrap from "../utils/wrap";
-import "./../utils/passport";
+import "../utils/passport";
 
 import {
   loginFn,
