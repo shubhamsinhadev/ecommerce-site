@@ -14,6 +14,8 @@ export default function Navbar() {
         position={"fixed"}
         top={0}
         left={0}
+        bg={"white"}
+        zIndex={1}
       >
         <Box
           mx={"auto"}
