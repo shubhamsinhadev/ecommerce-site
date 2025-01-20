@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ZodError } from "zod";
+import { ZodError, ZodIssue } from "zod";
 
 class CustomError extends Error {
   public statusCode: number;
@@ -23,8 +23,7 @@ const errorHandler = (
   next: NextFunction
 ) => {
   if (err instanceof ZodError) {
-    const zodErrors = err.format()._errors;
-    res.status(400).json({ status: false, message: zodErrors });
+    res.status(400).json({ status: false, message: err.flatten().fieldErrors });
     return;
   }
 

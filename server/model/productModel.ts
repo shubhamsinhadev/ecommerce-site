@@ -21,13 +21,17 @@ export const ZProduct = z.object({
   onSale: z.boolean().optional(),
 });
 
-export const ZProducts = ZProduct.or(
-  z.array(ZProduct).min(1, { message: "Product data missing" })
-).transform((val) => {
-  if (Array.isArray(val)) return val;
+// export const ZProducts = ZProduct.or(
+//   z.array(ZProduct).min(1, { message: "Product data missing" })
+// ).transform((val) => {
+//   if (Array.isArray(val)) return val;
 
-  return [val];
-});
+//   return [val];
+// });
+
+export const ZProducts = z.preprocess((val) => {
+  return Array.isArray(val) ? val : [val];
+}, z.array(ZProduct, { message: "Invalid Data" }).nonempty());
 
 interface IProduct {
   title: string;
