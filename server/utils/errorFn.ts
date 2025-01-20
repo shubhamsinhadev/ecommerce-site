@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { ZodError } from "zod";
 
 class CustomError extends Error {
   public statusCode: number;
@@ -16,11 +17,17 @@ const routeNotFound = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const errorHandler = (
-  err: Error,
+  err: Error | any,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  if (err instanceof ZodError) {
+    const zodErrors = err.format()._errors;
+    res.status(400).json({ status: false, message: zodErrors });
+    return;
+  }
+
   res
     .status(500)
     .json({ status: false, message: err.message || "Something went wrong" });

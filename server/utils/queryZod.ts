@@ -18,3 +18,5 @@ export const ZQuery = z.object({
   limit: z.coerce.number().min(1).optional().default(10),
   page: z.coerce.number().min(1).optional().default(1),
 });
+
+export type IQuery = z.infer<typeof ZQuery>;

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { ZQuery } from "../utils/queryZod";
+import { IQuery, ZQuery } from "../utils/queryZod";
 import Product, { ZProduct, ZProducts } from "../model/productModel";
+import { CustomError } from "../utils/errorFn";
 
 export const getProductByQuery = async (
   req: Request,
@@ -11,36 +12,18 @@ export const getProductByQuery = async (
 
   const productQuery = Product.find();
 
-  Object.keys(query).forEach((key) => {
-    switch (key) {
-      case "minPrice":
-        productQuery.where("price").gte(query.minPrice as number);
-        break;
-      case "maxPrice":
-        productQuery.where("price").lte(query.maxPrice as number);
-        break;
-      case "rating":
-        productQuery.where("price").gte(query.rating as number);
-        break;
-      case "category":
-        productQuery.where("category").in(query.category as string[]);
-        break;
-      case "title":
-        productQuery
-          .where("title")
-          .regex(new RegExp(query.title as string, "i"));
-        break;
-      case "limit":
-        productQuery.limit(query.limit as number);
-        break;
-      case "page":
-        productQuery.skip((query.page - 1) * (query.limit as number));
-        break;
-      case "sort":
-        productQuery.sort({ price: query.sort as "asc" | "desc" });
-        break;
-      default:
-    }
+  const queryMapping: { [key: string]: (value: any) => void } = {
+    minPrice: (value) => productQuery.where("price").gte(value),
+    maxPrice: (value) => productQuery.where("price").lte(value),
+    category: (value) => productQuery.where("category").in(value),
+    title: (value) => productQuery.where("title").regex(new RegExp(value, "i")),
+    limit: (value) => productQuery.limit(value),
+    page: (value) => productQuery.skip((value - 1) * query.limit),
+    sort: (value) => productQuery.sort({ price: value }),
+  };
+
+  (Object.keys(query) as Array<keyof IQuery>).forEach((key) => {
+    queryMapping[key](query[key]);
   });
 
   console.log(productQuery.getFilter());
@@ -71,15 +54,17 @@ export const updateProduct = async (
   const { id } = req.params;
   const productData = await ZProduct.parseAsync(req.body);
 
-  const updateProduct = await Product.findByIdAndUpdate(id, productData);
+  const updateProduct = await Product.updateOne({ _id: id }, productData);
 
-  res
-    .status(200)
-    .json({
-      status: true,
-      message: "Product Updated Successfully",
-      product: updateProduct,
-    });
+  if (updateProduct.modifiedCount < 1) {
+    throw new CustomError("Error updating product", 501);
+  }
+
+  res.status(200).json({
+    status: true,
+    message: "Product updated Successfully",
+    product: updateProduct,
+  });
 };
 
 export const delProduct = async (
@@ -87,5 +72,17 @@ export const delProduct = async (
   res: Response,
   next: NextFunction
 ) => {
-  res.status(401).json({ message: "Unauthorized" });
+  const { id } = req.params;
+
+  const delProduct = await Product.deleteOne({ _id: id });
+
+  if (delProduct.deletedCount < 1) {
+    throw new CustomError("Error updating product", 501);
+  }
+
+  res.status(200).json({
+    status: true,
+    message: "Product deleted Successfully",
+    product: updateProduct,
+  });
 };

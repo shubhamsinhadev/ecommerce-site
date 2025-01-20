@@ -1,8 +1,14 @@
 import { model, Model, Schema } from "mongoose";
 import { z } from "zod";
+import { CustomError } from "../utils/errorFn";
 
 export const ZProduct = z.object({
-  title: z.string(),
+  title: z
+    .string({
+      required_error: "title is required",
+      invalid_type_error: "title must be a string",
+    })
+    .min(5, { message: "Must be 5 or more characters long" }),
   image: z.string(),
   price: z.number(),
   description: z.string(),
@@ -15,7 +21,9 @@ export const ZProduct = z.object({
   onSale: z.boolean().optional(),
 });
 
-export const ZProducts = ZProduct.or(z.array(ZProduct)).transform((val) => {
+export const ZProducts = ZProduct.or(
+  z.array(ZProduct).min(1, { message: "Product data missing" })
+).transform((val) => {
   if (Array.isArray(val)) return val;
 
   return [val];
@@ -53,6 +61,10 @@ const productSchema = new Schema({
   onSale: { type: Boolean, required: false },
 });
 
+productSchema.post("findOneAndUpdate", function (doc, next) {
+  if (!doc) return next(new CustomError("Product not found", 404));
+  next();
+});
 const Product = model<IProduct, ProductModel>("Product", productSchema);
 
 export default Product;
