@@ -46,11 +46,11 @@ app.get("/", async (req, res) => {
   res.send("Hello, World!");
 });
 
-app.use("/auth", authRouter);
-app.use("/product", productRouter);
-app.use("/cart", cartRouter);
-app.use("/address", addressRouter);
-app.use("/review", reviewRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/address", addressRouter);
+app.use("/api/review", reviewRouter);
 
 app.use(routeNotFound);
 app.use(errorHandler);
