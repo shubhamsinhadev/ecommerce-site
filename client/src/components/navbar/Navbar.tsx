@@ -1,5 +1,5 @@
 import { Box, Input } from "@chakra-ui/react";
-import { Package, ShoppingBag } from "lucide-react";
+import { Menu, Package, ShoppingBag } from "lucide-react";
 import { Outlet, useNavigate } from "react-router";
 import { IconButton } from "@chakra-ui/react";
 
@@ -25,8 +25,18 @@ export default function Navbar() {
           display={"flex"}
           px={1.5}
           py={3}
-          gap={1.5}
         >
+          <IconButton
+            aria-label="icon"
+            color={"black"}
+            colorPalette={"blue"}
+            variant={"ghost"}
+            height={"100%"}
+            onClick={() => navigate("/")}
+          >
+            <Menu />
+          </IconButton>
+
           <IconButton
             aria-label="icon"
             color={"black"}
@@ -42,6 +52,7 @@ export default function Navbar() {
             placeholder="Search..."
             height={"100%"}
             colorPalette={"blue"}
+            mx={"1.5"}
           />
 
           <IconButton

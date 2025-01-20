@@ -1,7 +1,10 @@
 import { IProduct } from "@/utils/productType";
-import { Card, Grid } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import ProductCard from "../product/ProductCard";
 import { Button } from "../ui/button";
+import { ArrowDownUp } from "lucide-react";
+import ProductFilter from "../product/ProductFilter";
 
 const fetchProducts = async () => {
   return await fetch("/api/product")
@@ -28,8 +31,8 @@ export default function Home() {
     return <span>Error: {error.message}</span>;
   }
 
-  if (!data) {
-    return <span>Data Corrupted</span>;
+  if (!data || data.length === 0) {
+    return <span>Data Corrupted or Nothing to show</span>;
   }
 
   return (
@@ -45,30 +48,22 @@ export default function Home() {
         maxWidth={"breakpoint-lg"}
         mx={"auto"}
       >
+        <GridItem
+          colSpan={{
+            base: 2,
+            md: 3,
+            lg: 4,
+          }}
+          display={"flex"}
+          justifyContent={"space-between"}
+        >
+          <ProductFilter />
+          <Button colorPalette="blue" variant="solid">
+            <ArrowDownUp /> Sort
+          </Button>
+        </GridItem>
         {data.map((product) => (
-          <Card.Root
-            key={product._id}
-            variant="outline"
-            p={2}
-            display={"flex"}
-            flexDir={"column"}
-            gap={2}
-          >
-            <img
-              src={product.image}
-              alt={product.title}
-              style={{
-                aspectRatio: "1/1",
-                width: "100%",
-                objectFit: "contain",
-              }}
-            />
-            <Card.Title textStyle="md" lineClamp={2}>
-              {product.title}
-            </Card.Title>
-            <div style={{ flex: 1 }}></div>
-            <Button colorPalette={"blue"}>Add to Cart</Button>
-          </Card.Root>
+          <ProductCard product={product} />
         ))}
       </Grid>
     </>
