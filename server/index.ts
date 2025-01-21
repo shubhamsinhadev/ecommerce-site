@@ -13,6 +13,7 @@ import authRouter from "./router/authRouter";
 import cartRouter from "./router/cartRouter";
 import addressRouter from "./router/addressRouter";
 import reviewRouter from "./router/reviewRouter";
+import { delay } from "./utils/delay";
 // import { seedFn } from "./utils/seed";
 
 const app = express();
@@ -40,6 +41,8 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(delay); // Only for development
 
 app.get("/", async (req, res) => {
   // await seedFn();

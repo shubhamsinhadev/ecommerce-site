@@ -1,18 +1,13 @@
 import { IProduct } from "@/utils/productType";
 import { Grid, GridItem } from "@chakra-ui/react";
-import {
-  keepPreviousData,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ProductCard from "../product/ProductCard";
 import ProductFilter from "../product/ProductFilter";
 import { useSearchParams } from "react-router";
-import { useEffect } from "react";
 import ProductSort from "../product/ProductSort";
 
-const fetchProducts = async (query: string) => {
-  return await fetch("/api/product?" + query)
+const fetchProducts = async (query: string, signal: AbortSignal) => {
+  return await fetch("/api/product?" + query, { signal })
     .then((res) => res.json())
     .then((res) => {
       if (!res.status) {
@@ -23,23 +18,14 @@ const fetchProducts = async (query: string) => {
 };
 
 export default function Home() {
-  const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
   const query = searchParams.toString();
 
   const { isPending, isError, data, error } = useQuery<IProduct[]>({
     queryKey: ["products", query],
-    queryFn: () => fetchProducts(query),
+    queryFn: ({ signal }) => fetchProducts(query, signal),
     placeholderData: keepPreviousData,
   });
-
-  useEffect(() => {
-    return () => {
-      queryClient.cancelQueries({
-        queryKey: ["products", query],
-      });
-    };
-  }, [query, queryClient]);
 
   if (isPending) {
     return <span>Loading...</span>;

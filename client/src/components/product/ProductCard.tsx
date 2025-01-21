@@ -3,6 +3,8 @@ import { Card, Flex, Text } from "@chakra-ui/react";
 import { Button } from "../ui/button";
 import { Hash } from "lucide-react";
 import { Link } from "react-router";
+import { useState } from "react";
+import { Skeleton } from "../ui/skeleton";
 
 export default function ProductCard({ product }: { product: IProduct }) {
   return (
@@ -14,15 +16,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
       flexDir={"column"}
       gap={2}
     >
-      <img
-        src={product.image}
-        alt={product.title}
-        style={{
-          aspectRatio: "1/1",
-          width: "100%",
-          objectFit: "contain",
-        }}
-      />
+      <ProductImage src={product.image} title={product.title} />
       <Link
         to={{
           search: `?category=${product.category}`,
@@ -56,3 +50,25 @@ export default function ProductCard({ product }: { product: IProduct }) {
     </Card.Root>
   );
 }
+
+const ProductImage = ({ src, title }: { src: string; title: string }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  return (
+    <>
+      <img
+        src={src}
+        alt={title}
+        style={{
+          aspectRatio: "1/1",
+          width: "100%",
+          objectFit: "contain",
+          visibility: isLoading ? "hidden" : "visible",
+          position: isLoading ? "absolute" : "relative",
+        }}
+        onLoad={() => setIsLoading(false)}
+      />
+      {isLoading && <Skeleton aspectRatio={"1/1"} />}
+    </>
+  );
+};
