@@ -7,7 +7,7 @@ const PriceFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const minPrice = Number(searchParams.get("minPrice")) || 0;
-  const maxPrice = Number(searchParams.get("maxPrice")) || 1000;
+  const maxPrice = Number(searchParams.get("maxPrice")) || 6000;
 
   const initialPrice = [minPrice, maxPrice];
 
@@ -30,7 +30,7 @@ const PriceFilter = () => {
       <Slider
         value={value}
         onValueChange={(e) => handleChange(e.value)}
-        max={1000}
+        max={6000}
         colorPalette={"blue"}
       />
       <Flex justifyContent={"space-between"}>

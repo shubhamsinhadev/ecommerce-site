@@ -1,7 +1,8 @@
-import { Box, Input } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Menu, Package, ShoppingBag } from "lucide-react";
 import { Outlet, useNavigate } from "react-router";
 import { IconButton } from "@chakra-ui/react";
+import Searchbar from "./Searchbar";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -48,12 +49,7 @@ export default function Navbar() {
             <Package />
           </IconButton>
 
-          <Input
-            placeholder="Search..."
-            height={"100%"}
-            colorPalette={"blue"}
-            mx={"1.5"}
-          />
+          <Searchbar />
 
           <IconButton
             aria-label="icon"
