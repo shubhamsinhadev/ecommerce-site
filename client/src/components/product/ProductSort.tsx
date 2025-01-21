@@ -1,11 +1,11 @@
+import { createListCollection } from "@chakra-ui/react";
 import {
-  createListCollection,
   SelectContent,
   SelectItem,
+  SelectRoot,
   SelectTrigger,
   SelectValueText,
-} from "@chakra-ui/react";
-import { SelectRoot } from "../ui/select";
+} from "../ui/select";
 import { useState } from "react";
 import { useSearchParams } from "react-router";
 
@@ -40,7 +40,6 @@ const ProductSort = () => {
       size="md"
       width={"150px"}
       collection={sort}
-      colorPalette={"blue"}
     >
       <SelectTrigger>
         <SelectValueText placeholder="Sort" />

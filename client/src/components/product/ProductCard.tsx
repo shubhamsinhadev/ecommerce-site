@@ -2,6 +2,7 @@ import { IProduct } from "@/utils/productType";
 import { Card, Flex } from "@chakra-ui/react";
 import { Button } from "../ui/button";
 import { Hash } from "lucide-react";
+import { Link } from "react-router";
 
 export default function ProductCard({ product }: { product: IProduct }) {
   return (
@@ -22,11 +23,17 @@ export default function ProductCard({ product }: { product: IProduct }) {
           objectFit: "contain",
         }}
       />
+      <Link
+        to={{
+          search: `?category=${product.category}`,
+        }}
+      >
+        <Flex align="center" color={"gray.500"}>
+          <Hash size={16} />
+          <Card.Title textStyle="xs">{product.category}</Card.Title>
+        </Flex>
+      </Link>
 
-      <Flex align="center" color={"gray.500"}>
-        <Hash size={16} />
-        <Card.Title textStyle="xs">{product.category}</Card.Title>
-      </Flex>
       <Card.Title
         textStyle="md"
         lineClamp={2}
