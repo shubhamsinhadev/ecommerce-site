@@ -6,10 +6,42 @@ import {
   SelectValueText,
 } from "@chakra-ui/react";
 import { SelectRoot } from "../ui/select";
+import { useState } from "react";
+import { useSearchParams } from "react-router";
 
 const ProductSort = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const initialSort = searchParams.get("sort") || "popularity";
+
+  const [value, setValue] = useState<string[]>([initialSort]);
+
+  const handleChange = (value: string[]) => {
+    if (value[0] === "popularity") {
+      setSearchParams((prev) => {
+        prev.delete("sort");
+        return prev;
+      });
+    } else {
+      setSearchParams((prev) => {
+        prev.set("sort", value[0]);
+        return prev;
+      });
+    }
+
+    setValue(value);
+  };
+
   return (
-    <SelectRoot variant={"outline"} size="sm" width={"150px"} collection={sort}>
+    <SelectRoot
+      variant={"outline"}
+      value={value}
+      onValueChange={(e) => handleChange(e.value)}
+      size="md"
+      width={"150px"}
+      collection={sort}
+      colorPalette={"blue"}
+    >
       <SelectTrigger>
         <SelectValueText placeholder="Sort" />
       </SelectTrigger>
@@ -26,6 +58,7 @@ const ProductSort = () => {
 
 const sort = createListCollection({
   items: [
+    { label: "Popularity", value: "popularity" },
     { label: "Ascending", value: "asc" },
     { label: "Descending", value: "desc" },
   ],
