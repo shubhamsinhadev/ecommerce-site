@@ -34,7 +34,11 @@ export default function CategoryFilter() {
       <SelectTrigger clearable>
         <SelectValueText placeholder="Select categories" />
       </SelectTrigger>
-      <SelectContent style={{ zIndex: 1500 }}>
+      <SelectContent
+        style={{
+          zIndex: 1500, // ZIndex for Drawer is 1400
+        }}
+      >
         {category.items.map((i) => (
           <SelectItem item={i} key={i.value}>
             {i.label}
