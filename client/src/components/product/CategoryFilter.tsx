@@ -1,4 +1,4 @@
-import { createListCollection, Flex, Heading } from "@chakra-ui/react";
+import { createListCollection, Heading } from "@chakra-ui/react";
 import {
   SelectContent,
   SelectItem,
@@ -7,36 +7,51 @@ import {
   SelectTrigger,
   SelectValueText,
 } from "../ui/select";
+import { useState } from "react";
+import { useSearchParams } from "react-router";
 
 export default function CategoryFilter() {
+  const [value, setValue] = useState<string[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleChange = (data: string[]) => {
+    setSearchParams({ ...searchParams, category: data });
+    setValue(data);
+  };
+
   return (
-    <Flex direction={"column"} mt={4} gap={2}>
-      <SelectRoot multiple collection={categoryList} width="100%">
-        <SelectLabel>
-          <Heading size="xl">Category</Heading>
-        </SelectLabel>
-        <SelectTrigger>
-          <SelectValueText placeholder="Select categories" />
-        </SelectTrigger>
-        <SelectContent>
-          {categoryList.items.map((i) => (
-            <SelectItem item={i} key={i.value}>
-              {i.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </SelectRoot>
-    </Flex>
+    <SelectRoot
+      variant={"outline"}
+      multiple
+      collection={category}
+      mt={10}
+      value={value}
+      onValueChange={(e) => handleChange(e.value)}
+    >
+      <SelectLabel>
+        <Heading size="xl">Category</Heading>
+      </SelectLabel>
+      <SelectTrigger clearable>
+        <SelectValueText placeholder="Select categories" />
+      </SelectTrigger>
+      <SelectContent style={{ zIndex: 1500 }}>
+        {category.items.map((i) => (
+          <SelectItem item={i} key={i.value}>
+            {i.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </SelectRoot>
   );
 }
 
-const categoryList = createListCollection({
+const category = createListCollection({
   items: [
-    { label: "Popularity", value: "appliances" },
-    { label: "audio", value: "audio" },
-    { label: "gaming", value: "gaming" },
-    { label: "laptop", value: "laptop" },
-    { label: "mobile", value: "mobile" },
-    { label: "tv", value: "tv" },
+    { label: "Appliances", value: "appliances" },
+    { label: "Audio", value: "audio" },
+    { label: "Gaming", value: "gaming" },
+    { label: "Laptop", value: "laptop" },
+    { label: "Mobile", value: "mobile" },
+    { label: "Television", value: "tv" },
   ],
 });
