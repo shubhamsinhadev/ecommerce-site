@@ -1,13 +1,19 @@
 import { IProduct } from "@/utils/productType";
 import { Grid, GridItem } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import ProductCard from "../product/ProductCard";
 import { Button } from "../ui/button";
 import { ArrowDownUp } from "lucide-react";
 import ProductFilter from "../product/ProductFilter";
+import { useSearchParams } from "react-router";
+import { useEffect } from "react";
 
-const fetchProducts = async () => {
-  return await fetch("/api/product")
+const fetchProducts = async (query: string) => {
+  return await fetch("/api/product?" + query)
     .then((res) => res.json())
     .then((res) => {
       if (!res.status) {
@@ -18,10 +24,23 @@ const fetchProducts = async () => {
 };
 
 export default function Home() {
+  const queryClient = useQueryClient();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.toString();
+
   const { isPending, isError, data, error } = useQuery<IProduct[]>({
-    queryKey: ["products"],
-    queryFn: fetchProducts,
+    queryKey: ["products", query],
+    queryFn: () => fetchProducts(query),
+    placeholderData: keepPreviousData,
   });
+
+  useEffect(() => {
+    return () => {
+      queryClient.cancelQueries({
+        queryKey: ["products", query],
+      });
+    };
+  }, [query, queryClient]);
 
   if (isPending) {
     return <span>Loading...</span>;
@@ -58,12 +77,13 @@ export default function Home() {
           justifyContent={"space-between"}
         >
           <ProductFilter />
+          {query}
           <Button colorPalette="blue" variant="solid">
             <ArrowDownUp /> Sort
           </Button>
         </GridItem>
         {data.map((product) => (
-          <ProductCard product={product} />
+          <ProductCard key={product._id} product={product} />
         ))}
       </Grid>
     </>
