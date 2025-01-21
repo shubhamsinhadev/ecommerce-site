@@ -20,8 +20,9 @@ export default function ProductFilter() {
         placement={"start"}
       >
         <DrawerBackdrop />
-        <DrawerContent px={4} py={50}>
+        <DrawerContent px={6} py={50}>
           <PriceFilter />
+          <CategoryFilter />
         </DrawerContent>
       </DrawerRoot>
     </>
@@ -62,6 +63,17 @@ const PriceFilter = () => {
         <Text>Min-Price : {value[0]}</Text>
         <Text>Max-Price : {value[1]}</Text>
       </Flex>
+    </Flex>
+  );
+};
+
+const CategoryFilter = () => {
+  const category = ["appliances", "audio", "gaming", "laptop", "mobile", "tv"];
+  
+  
+  return (
+    <Flex direction={"column"} mt={4} gap={2}>
+      <Heading size="xl">Category</Heading>
     </Flex>
   );
 };

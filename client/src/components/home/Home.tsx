@@ -6,11 +6,10 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import ProductCard from "../product/ProductCard";
-import { Button } from "../ui/button";
-import { ArrowDownUp } from "lucide-react";
 import ProductFilter from "../product/ProductFilter";
 import { useSearchParams } from "react-router";
 import { useEffect } from "react";
+import ProductSort from "../product/ProductSort";
 
 const fetchProducts = async (query: string) => {
   return await fetch("/api/product?" + query)
@@ -25,7 +24,7 @@ const fetchProducts = async (query: string) => {
 
 export default function Home() {
   const queryClient = useQueryClient();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const query = searchParams.toString();
 
   const { isPending, isError, data, error } = useQuery<IProduct[]>({
@@ -77,10 +76,7 @@ export default function Home() {
           justifyContent={"space-between"}
         >
           <ProductFilter />
-          {query}
-          <Button colorPalette="blue" variant="solid">
-            <ArrowDownUp /> Sort
-          </Button>
+          <ProductSort />
         </GridItem>
         {data.map((product) => (
           <ProductCard key={product._id} product={product} />
