@@ -1,8 +1,10 @@
 import { Box } from "@chakra-ui/react";
-import { Menu, Package, ShoppingBag } from "lucide-react";
+import { Package, ShoppingBag } from "lucide-react";
 import { Outlet, useNavigate } from "react-router";
 import { IconButton } from "@chakra-ui/react";
 import Searchbar from "./Searchbar";
+import SiberbarMain from "../sidebar/SiberbarMain";
+import UserIcon from "./UserIcon";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -22,21 +24,12 @@ export default function Navbar() {
           mx={"auto"}
           height={"100%"}
           width={"100%"}
-          maxWidth={"breakpoint-md"}
+          maxWidth={"breakpoint-sm"}
           display={"flex"}
           px={1.5}
           py={3}
         >
-          <IconButton
-            aria-label="icon"
-            color={"black"}
-            colorPalette={"blue"}
-            variant={"ghost"}
-            height={"100%"}
-            onClick={() => navigate("/")}
-          >
-            <Menu />
-          </IconButton>
+          <SiberbarMain />
 
           <IconButton
             aria-label="icon"
@@ -50,6 +43,8 @@ export default function Navbar() {
           </IconButton>
 
           <Searchbar />
+
+          <UserIcon />
 
           <IconButton
             aria-label="icon"
