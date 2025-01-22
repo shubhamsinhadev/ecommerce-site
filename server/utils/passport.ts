@@ -10,9 +10,14 @@ passport.use(
     async function (email, password, done) {
       const ZAuth = ZUser.omit({ name: true, role: true });
 
-      const authData = await ZAuth.parseAsync({ email, password });
+      const authData = await ZAuth.safeParseAsync({ email, password });
 
-      const user = await User.findOne({ email: authData.email }).select(
+      if (authData.error)
+        return done(null, false, { message: "Credentials Invalid " });
+
+      const userData = authData.data;
+
+      const user = await User.findOne({ email: userData.email }).select(
         "password"
       );
 

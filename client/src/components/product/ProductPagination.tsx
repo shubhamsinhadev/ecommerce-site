@@ -25,7 +25,7 @@ const ProductPagination = () => {
 
   return (
     <PaginationRoot
-      count={144}
+      count={150}
       pageSize={12}
       variant="solid"
       colorPalette={"blue"}
