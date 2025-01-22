@@ -11,11 +11,17 @@ import { useState } from "react";
 import { useSearchParams } from "react-router";
 
 export default function CategoryFilter() {
-  const [value, setValue] = useState<string[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const initialValue = searchParams.getAll("category") || [];
+  const [value, setValue] = useState<string[]>(initialValue);
+
   const handleChange = (data: string[]) => {
-    setSearchParams({ ...searchParams, category: data });
+    setSearchParams((prev) => {
+      prev.delete("category");
+      data.forEach((category) => prev.append("category", category));
+      return prev;
+    });
     setValue(data);
   };
 

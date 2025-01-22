@@ -15,7 +15,7 @@ export const ZQuery = z.object({
   maxPrice: z.coerce.number().min(0).optional(),
   rating: z.coerce.number().min(0).max(5).optional(),
   sort: z.enum(["asc", "desc"]).optional(),
-  limit: z.coerce.number().min(1).optional().default(10),
+  limit: z.coerce.number().min(1).optional().default(12),
   page: z.coerce.number().min(1).optional().default(1),
 });
 

@@ -5,6 +5,7 @@ import ProductCard from "../product/ProductCard";
 import ProductFilter from "../product/ProductFilter";
 import { useSearchParams } from "react-router";
 import ProductSort from "../product/ProductSort";
+import ProductPagination from "./ProductPagination";
 
 const fetchProducts = async (query: string, signal: AbortSignal) => {
   return await fetch("/api/product?" + query, { signal })
@@ -65,6 +66,17 @@ export default function ProductMain() {
         {data.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}
+        <GridItem
+          colSpan={{
+            base: 2,
+            md: 3,
+            lg: 4,
+          }}
+          display={"flex"}
+          justifyContent={"center"}
+        >
+          <ProductPagination />
+        </GridItem>
       </Grid>
     </>
   );

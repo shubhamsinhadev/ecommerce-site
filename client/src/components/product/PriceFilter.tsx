@@ -16,10 +16,10 @@ const PriceFilter = () => {
   const handleChange = (price: number[]) => {
     if (price[0] !== price[1]) {
       setValue(price);
-      setSearchParams({
-        ...searchParams,
-        minPrice: price[0].toString(),
-        maxPrice: price[1].toString(),
+      setSearchParams((prev) => {
+        prev.set("minPrice", price[0].toString());
+        prev.set("maxPrice", price[1].toString());
+        return prev;
       });
     }
   };
