@@ -8,18 +8,7 @@ passport.use(
   new LocalStrategy(
     { usernameField: "email", passwordField: "password" },
     async function (email, password, done) {
-      const ZAuth = ZUser.omit({ name: true, role: true });
-
-      const authData = await ZAuth.safeParseAsync({ email, password });
-
-      if (authData.error)
-        return done(null, false, { message: "Credentials Invalid " });
-
-      const userData = authData.data;
-
-      const user = await User.findOne({ email: userData.email }).select(
-        "password"
-      );
+      const user = await User.findOne({ email }).select("password");
 
       if (!user) return done(null, false, { message: "User not found" });
 

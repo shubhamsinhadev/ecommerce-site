@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import User, { ZUser } from "../model/userModel";
+import { CustomError } from "../utils/errorFn";
 
 export const registerFn = async (
   req: Request,
@@ -18,6 +19,22 @@ export const registerFn = async (
 
     res.json({ status: true, message: "Registration Successfull" });
   });
+};
+
+export const loginDataValidator = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const ZAuth = ZUser.omit({ name: true, role: true });
+
+  const authData = await ZAuth.safeParseAsync(req.body);
+
+  if (authData.success) {
+    next();
+  } else {
+    throw new CustomError("Invalid credentials", 404);
+  }
 };
 
 export const loginFn = async (

@@ -8,6 +8,7 @@ import {
   Toast,
   createToaster,
 } from "@chakra-ui/react";
+import { XIcon } from "lucide-react";
 
 export const toaster = createToaster({
   placement: "bottom-end",
@@ -31,10 +32,13 @@ export const Toaster = () => {
                 <Toast.Description>{toast.description}</Toast.Description>
               )}
             </Stack>
-            {toast.action && (
+            {/* {toast.action && (
               <Toast.ActionTrigger>{toast.action.label}</Toast.ActionTrigger>
             )}
-            {toast.meta?.closable && <Toast.CloseTrigger />}
+            {toast.meta?.closable && <Toast.CloseTrigger />} */}
+            <Toast.CloseTrigger>
+              <XIcon />
+            </Toast.CloseTrigger>
           </Toast.Root>
         )}
       </ChakraToaster>

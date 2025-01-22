@@ -3,6 +3,7 @@ import wrap from "../utils/wrap";
 import "../utils/passport";
 
 import {
+  loginDataValidator,
   loginFn,
   logoutFn,
   profileFn,
@@ -14,7 +15,7 @@ const authRouter = express.Router();
 
 authRouter.post("/register", wrap(registerFn));
 
-authRouter.post("/login", wrap(loginFn));
+authRouter.post("/login", wrap(loginDataValidator), wrap(loginFn));
 
 authRouter.post("/logout", wrap(logoutFn));
 
