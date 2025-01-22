@@ -9,10 +9,12 @@ import { Package } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { toaster } from "@/components/ui/toaster";
 import { loginFn, Tlogin, Zlogin } from "@/utils/auth";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Separator } from "@chakra-ui/react";
 
 export default function LoginMain() {
+  const navigate = useNavigate();
+
   const mutation = useMutation({
     mutationFn: (data: Tlogin) => loginFn(data),
     onError: (error) => {
@@ -27,6 +29,7 @@ export default function LoginMain() {
         title: `Authentication Success`,
         type: "success",
       });
+      navigate("/user");
     },
   });
 
@@ -95,7 +98,9 @@ export default function LoginMain() {
 
         <HStack mt={2}>
           <Separator flex="1" />
-          <Text flexShrink="0">OR</Text>
+          <Text flexShrink="0" fontWeight={"medium"}>
+            OR
+          </Text>
           <Separator flex="1" />
         </HStack>
         <Text fontSize={"sm"} textAlign={"center"}>
