@@ -35,7 +35,7 @@ const FilterLg = () => {
         position={"sticky"}
         px={4}
         py={20}
-        top={"128px"}
+        top={"128px"} // 64px (Navbar height) + 12px (padding)+ 52px (40px button height + 12px padding)
       >
         <PriceFilter />
         <CategoryFilter />
