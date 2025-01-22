@@ -1,8 +1,8 @@
 import { TUser } from "./auth";
 
-export type mongoId = {
+export type TMongoDb = {
   _id: string;
   _v?: number;
 };
 
-export type TUserDetials = mongoId & Omit<TUser, "password">;
+export type TUserDetials = TMongoDb & Omit<TUser, "password">;

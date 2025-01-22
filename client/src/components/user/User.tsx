@@ -4,15 +4,27 @@ export default function User() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  if (location.pathname === "/user") {
-    return <Navigate to="/user/profile" />;
+  let value = "tab-1";
+
+  switch (location.pathname) {
+    case "/user/profile":
+      value = "tab-1";
+      break;
+    case "/user/address":
+      value = "tab-2";
+      break;
+    case "/user/order":
+      value = "tab-3";
+      break;
+    default:
+      return <Navigate to="/user/profile" />;
   }
 
   return (
-    <Box bg={"gray.100"} w={"100%"} h="calc(100dvh - 64px)" pt={12}>
+    <Box bg={"gray.100"} w={"100%"} h="calc(100dvh - 64px)" p={4} pt={12}>
       <Box
         bg={"white"}
-        maxW={"sm"}
+        maxW={"md"}
         mx={"auto"}
         p={4}
         rounded={"md"}
@@ -24,9 +36,9 @@ export default function User() {
         <Tabs.Root
           colorPalette={"blue"}
           variant="line"
-          maxW="md"
+          w={"100%"}
           fitted
-          defaultValue={"tab-1"}
+          defaultValue={value}
         >
           <Tabs.List>
             <Tabs.Trigger
@@ -41,11 +53,8 @@ export default function User() {
             >
               Address
             </Tabs.Trigger>
-            <Tabs.Trigger
-              value="tab-3"
-              onClick={() => navigate("/user/profile")}
-            >
-              Tab 3
+            <Tabs.Trigger value="tab-3" onClick={() => navigate("/user/order")}>
+              Orders
             </Tabs.Trigger>
           </Tabs.List>
         </Tabs.Root>

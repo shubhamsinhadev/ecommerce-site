@@ -10,13 +10,11 @@ export const ZAddress = z.object({
   pincode: z
     .string()
     .regex(/^\d{6}$/, "Pincode must be a valid 6-digit number"),
-  location: z.string().min(1, "Location is required").trim(),
   address: z.string().min(1, "Address is required").trim(),
   cityDistrictTown: z.string().min(1, "City/District/Town is required").trim(),
   state: z.string().min(1, "State is required").trim(),
   landmark: z.string().trim().optional(),
   addressType: z.enum(["Home", "Office", "Other"]).default("Home"),
-  isDefault: z.boolean().optional().default(false),
 });
 
 export interface IAddress {
@@ -24,12 +22,10 @@ export interface IAddress {
   name: string;
   phoneNo: string;
   pincode: string;
-  location: string;
   address: string;
   cityDistrictTown: string;
   state: string;
   addressType: "Home" | "Office" | "Other";
-  isDefault: boolean;
   landmark?: string;
 }
 
@@ -59,11 +55,6 @@ const addressSchema = new Schema<IAddress, AddressModel, IAddressModels>(
       required: true,
       match: [/^\d{6}$/, "Invalid pincode format"],
     },
-    location: {
-      type: String,
-      required: true,
-      trim: true,
-    },
     address: {
       type: String,
       required: true,
@@ -87,10 +78,6 @@ const addressSchema = new Schema<IAddress, AddressModel, IAddressModels>(
       type: String,
       enum: ["Home", "Office", "Other"],
       default: "Home",
-    },
-    isDefault: {
-      type: Boolean,
-      default: false,
     },
   },
   {

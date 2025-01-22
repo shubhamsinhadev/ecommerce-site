@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ZMongoId } from "../utils/zod";
 import Address, { ZAddress } from "../model/addressModel";
+import { CustomError } from "../utils/errorFn";
 
 export const getAddress = async (
   req: Request,
@@ -58,5 +59,7 @@ export const deleteAddress = async (
 
   const address = await Address.findOneAndDelete({ userId, _id: addressId });
 
-  res.json({ status: true, address });
+  if (!address) throw new CustomError("Failed to delete address", 404);
+
+  res.json({ status: true, message: "Address Deleted Successfully" });
 };

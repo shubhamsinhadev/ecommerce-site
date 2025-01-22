@@ -9,6 +9,7 @@ import RegistrationMain from "./components/auth/registration/RegistrationMain";
 import { Toaster } from "@/components/ui/toaster";
 import AddressMain from "./components/address/AddressMain";
 import UserProfile from "./components/user/UserProfile";
+import OrderMain from "./components/orders/OrderMain";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/user" element={<User />}>
             <Route path="profile" element={<UserProfile />} />
             <Route path="address" element={<AddressMain />} />
+            <Route path="order" element={<OrderMain />} />
           </Route>
           <Route path="/login" element={<LoginMain />} />
           <Route path="/registration" element={<RegistrationMain />} />
