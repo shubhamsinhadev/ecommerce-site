@@ -22,7 +22,6 @@ const FilterLg = () => {
       w={"220px"}
       flexShrink={0}
       position={"relative"}
-      mr={6}
     >
       <div style={{ width: "100%", height: "52px" }}></div>
       <Card.Root
@@ -31,11 +30,12 @@ const FilterLg = () => {
         display={"flex"}
         flexDir={"column"}
         gap={2}
-        w={"220px"}
+        w={"100%"}
         height="calc(500px)"
-        position={"fixed"}
+        position={"sticky"}
         px={4}
         py={20}
+        top={"128px"}
       >
         <PriceFilter />
         <CategoryFilter />
