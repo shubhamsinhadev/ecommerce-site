@@ -7,6 +7,8 @@ import User from "./components/user/User";
 import LoginMain from "./components/auth/login/LoginMain";
 import RegistrationMain from "./components/auth/registration/RegistrationMain";
 import { Toaster } from "@/components/ui/toaster";
+import AddressMain from "./components/address/AddressMain";
+import UserProfile from "./components/user/UserProfile";
 
 function App() {
   return (
@@ -16,7 +18,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/user" element={<User />} />
+          <Route path="/user" element={<User />}>
+            <Route path="profile" element={<UserProfile />} />
+            <Route path="address" element={<AddressMain />} />
+          </Route>
           <Route path="/login" element={<LoginMain />} />
           <Route path="/registration" element={<RegistrationMain />} />
         </Route>

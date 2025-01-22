@@ -1,42 +1,12 @@
-import { Box, Center, Text } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
-import { Avatar } from "../ui/avatar";
-import { DataListItem, DataListRoot } from "../ui/data-list";
-import { TUserDetials } from "@/utils/types";
-
-const fetchUser = async () => {
-  return await fetch("/api/auth/profile", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      if (!res.status) {
-        throw new Error(res.message);
-      }
-      return res.user;
-    });
-};
-
+import { Box, Tabs } from "@chakra-ui/react";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router";
 export default function User() {
-  const { isPending, isError, data, error } = useQuery<TUserDetials>({
-    queryKey: ["user"],
-    queryFn: fetchUser,
-  });
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  if (isPending) return <div>Loading....</div>;
-  if (isError) return <div>Error: {error.message}</div>;
-  if (!data) return <div>Something went wrong</div>;
-
-  const { name, email } = data;
-
-  const userData = {
-    Name: name,
-    Email: email,
-  };
+  if (location.pathname === "/user") {
+    return <Navigate to="/user/profile" />;
+  }
 
   return (
     <Box bg={"gray.100"} w={"100%"} h="calc(100dvh - 64px)" pt={12}>
@@ -51,19 +21,35 @@ export default function User() {
         gap={2}
         shadow={"md"}
       >
-        <Center mb={4} w={"100%"}>
-          <Avatar variant="outline" size={"2xl"} name={data.name} />
-        </Center>
-
-        <DataListRoot orientation="horizontal">
-          {Object.entries(userData).map(([key, value], index) => (
-            <DataListItem
-              key={index}
-              label={<Text fontWeight={"bold"}>{key}</Text>}
-              value={value}
-            />
-          ))}
-        </DataListRoot>
+        <Tabs.Root
+          colorPalette={"blue"}
+          variant="line"
+          maxW="md"
+          fitted
+          defaultValue={"tab-1"}
+        >
+          <Tabs.List>
+            <Tabs.Trigger
+              value="tab-1"
+              onClick={() => navigate("/user/profile")}
+            >
+              Profile
+            </Tabs.Trigger>
+            <Tabs.Trigger
+              value="tab-2"
+              onClick={() => navigate("/user/address")}
+            >
+              Address
+            </Tabs.Trigger>
+            <Tabs.Trigger
+              value="tab-3"
+              onClick={() => navigate("/user/profile")}
+            >
+              Tab 3
+            </Tabs.Trigger>
+          </Tabs.List>
+        </Tabs.Root>
+        <Outlet />
       </Box>
     </Box>
   );

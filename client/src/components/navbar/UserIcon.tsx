@@ -1,6 +1,6 @@
 import { IconButton } from "@chakra-ui/react";
 import { CircleUserRound } from "lucide-react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import {
   MenuRoot,
   MenuContent,
@@ -28,16 +28,20 @@ export default function UserIcon() {
         </MenuTrigger>
         <MenuContent>
           <MenuItemGroup title="Not Logged in ?">
-            <MenuItem value="bold">
-              <Link to={{ pathname: "/login" }}>Login</Link>
+            <MenuItem value="bold" onClick={() => navigate("/login")}>
+              Login
             </MenuItem>
             <MenuItem value="underline">Underline</MenuItem>
           </MenuItemGroup>
           <MenuSeparator />
-          <MenuItemGroup title="Align">
-            <MenuItem value="left">Left</MenuItem>
-            <MenuItem value="middle">Middle</MenuItem>
-            <MenuItem value="right">Right</MenuItem>
+          <MenuItemGroup title="Profile">
+            <MenuItem value="Account" onClick={() => navigate("/user")}>
+              Account
+            </MenuItem>
+            <MenuItem value="Orders">Orders</MenuItem>
+            <MenuItem value="Cart" onClick={() => navigate("/cart")}>
+              Cart
+            </MenuItem>
           </MenuItemGroup>
         </MenuContent>
       </MenuRoot>
