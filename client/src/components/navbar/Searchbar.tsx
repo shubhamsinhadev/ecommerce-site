@@ -1,18 +1,25 @@
 import { Input } from "@chakra-ui/react";
+import { useState } from "react";
 import { useSearchParams } from "react-router";
 
 export default function Searchbar() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleChange = (value: string) => {
-    if (value == "") {
-      setSearchParams((prev) => {
+  const initialValue = searchParams.get("value") || undefined;
+
+  const [value, setValue] = useState<string | undefined>(initialValue);
+
+  const handleChange = (data: string) => {
+    setValue(data);
+    setSearchParams((prev) => {
+      if (data == "") {
         prev.delete("title");
-        return prev;
-      });
-      return;
-    }
-    setSearchParams({ ...searchParams, title: value });
+      } else {
+        prev.set("title", data);
+      }
+
+      return prev;
+    });
   };
 
   return (
@@ -21,6 +28,7 @@ export default function Searchbar() {
       height={"100%"}
       colorPalette={"blue"}
       mx={"1.5"}
+      value={value}
       onChange={(e) => handleChange(e.target.value)}
     />
   );
