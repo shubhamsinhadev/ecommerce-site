@@ -26,16 +26,17 @@ const PriceFilter = () => {
 
   return (
     <Flex direction={"column"} gap={2}>
-      <Heading size="xl">Price</Heading>
+      <Heading size="md">Price</Heading>
       <Slider
         value={value}
         onValueChange={(e) => handleChange(e.value)}
         max={6000}
         colorPalette={"blue"}
+        size={"sm"}
       />
       <Flex justifyContent={"space-between"}>
-        <Text>Min-Price : {value[0]}</Text>
-        <Text>Max-Price : {value[1]}</Text>
+        <Text fontSize={"xs"}>Min-Price : {value[0]}</Text>
+        <Text fontSize={"xs"}>Max-Price : {value[1]}</Text>
       </Flex>
     </Flex>
   );

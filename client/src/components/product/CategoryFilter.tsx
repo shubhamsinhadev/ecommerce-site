@@ -27,9 +27,10 @@ export default function CategoryFilter() {
       mt={10}
       value={value}
       onValueChange={(e) => handleChange(e.value)}
+      size={"xs"}
     >
       <SelectLabel>
-        <Heading size="xl">Category</Heading>
+        <Heading size="md">Category</Heading>
       </SelectLabel>
       <SelectTrigger clearable>
         <SelectValueText placeholder="Select categories" />

@@ -10,7 +10,12 @@ export default function ProductFilter() {
 
   return (
     <>
-      <Button colorPalette="blue" variant="solid" onClick={() => setOpen(true)}>
+      <Button
+        colorPalette="blue"
+        variant="solid"
+        onClick={() => setOpen(true)}
+        display={{ base: "", md: "none" }}
+      >
         <Filter /> Filter
       </Button>
       <DrawerRoot
@@ -19,7 +24,7 @@ export default function ProductFilter() {
         placement={"start"}
       >
         <DrawerBackdrop />
-        <DrawerContent px={6} py={50}>
+        <DrawerContent px={6} py={50} width={"50%"} maxWidth={"220px"}>
           <PriceFilter />
           <CategoryFilter />
         </DrawerContent>
