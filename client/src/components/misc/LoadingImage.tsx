@@ -21,6 +21,7 @@ export const LoadingImage = ({
           objectFit: "contain",
           visibility: isLoading ? "hidden" : "visible",
           position: isLoading ? "absolute" : "relative",
+          aspectRatio: "inherit",
         }}
         onLoad={() => setIsLoading(false)}
       />

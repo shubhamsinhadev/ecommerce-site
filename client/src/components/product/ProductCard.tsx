@@ -15,7 +15,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
       flexDir={"column"}
       gap={2}
     >
-      <Box aspectRatio={"square"} w={"100%"}>
+      <Box w={"100%"} aspectRatio={"1/1"}>
         <LoadingImage src={product.image} title={product.title} />
       </Box>
 
@@ -52,5 +52,3 @@ export default function ProductCard({ product }: { product: IProduct }) {
     </Card.Root>
   );
 }
-
-

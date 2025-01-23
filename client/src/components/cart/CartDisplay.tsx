@@ -41,6 +41,7 @@ export default function CartDisplay() {
             display={"flex"}
             flexDir={"row"}
             gap={2}
+            key={i._id}
           >
             <Box
               borderWidth="1px"

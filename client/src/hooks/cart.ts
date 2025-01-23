@@ -34,14 +34,14 @@ export function useFetchCart() {
 export function useAdd2Cart(product: IProduct) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (productId: string) =>
+    mutationFn: async () =>
       await fetch("/api/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ productId }),
+        body: JSON.stringify({ productId: product._id }),
       })
         .then((res) => res.json())
         .then((res) => {
@@ -67,6 +67,16 @@ export function useAdd2Cart(product: IProduct) {
         ["cart"],
         (old: TCartData[] | undefined): TCartData[] => {
           if (!Array.isArray(old)) return [];
+
+          const idx = old.findIndex((i) => i.productId === product._id);
+
+          if (idx !== -1) {
+            return old.map((i) =>
+              i.productId === product._id ? { ...data, product } : i
+            );
+          }
+          console.log(old);
+
           return [...old, { ...data, product }];
         }
       );

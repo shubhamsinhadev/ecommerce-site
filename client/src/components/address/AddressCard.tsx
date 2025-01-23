@@ -49,8 +49,10 @@ const AddressCard = ({ data }: { data: TAddressData }) => {
       </Flex>
 
       <Text color="fg.muted" fontSize={"md"} lineClamp={3}>
-        {data.address}, {data.cityDistrictTown}, {data.state},
-        <Text fontWeight={"bold"}>{data.pincode}</Text>
+        {data.address}, {data.cityDistrictTown}, {data.state},{" "}
+        <Text as="span" fontWeight={"bold"}>
+          {data.pincode}
+        </Text>
       </Text>
       {isDeleting && (
         <Box pos="absolute" inset="0" bg="blue.100/40">

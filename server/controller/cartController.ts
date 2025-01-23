@@ -22,9 +22,13 @@ export const addCart = async (
 ) => {
   const { userId } = req.user as { userId: string };
 
-  const productId = await ZMongoId.parseAsync(req.body.productId);
+  const { productId } = req.body as { productId: string };
 
-  const cart = await Cart.create({ userId, productId, quantity: 1 });
+  const cart = await Cart.findOneAndUpdate(
+    { userId, productId },
+    { $inc: { quantity: 1 } },
+    { new: true, upsert: true }
+  );
 
   res.json({ status: true, cart });
 };
