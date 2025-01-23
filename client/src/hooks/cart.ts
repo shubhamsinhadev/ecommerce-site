@@ -116,3 +116,45 @@ export function useUpdateCart(newCart: TCartData) {
     },
   });
 }
+
+export function useCartDel(id: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () =>
+      await fetch("/api/cart/" + id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (!res.status) {
+            throw new Error(res.message);
+          }
+          return res.cart;
+        }),
+    onError: (error) => {
+      toaster.create({
+        title: `Failed to delete`,
+        description: error.message,
+        type: "error",
+      });
+    },
+    onSuccess: () => {
+      toaster.create({
+        title: `Deleted Successfully`,
+        type: "success",
+      });
+
+      queryClient.setQueryData(
+        ["cart"],
+        (old: TCartData[] | undefined): TCartData[] => {
+          if (!Array.isArray(old)) return [];
+          return old.filter((p) => p._id !== id);
+        }
+      );
+    },
+  });
+}

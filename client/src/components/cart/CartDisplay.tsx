@@ -1,9 +1,9 @@
 import { useFetchCart } from "@/hooks/cart";
 import CartEmpty from "./CartEmpty";
-import { Box, Card, Flex, IconButton, Text } from "@chakra-ui/react";
-import { Trash2 } from "lucide-react";
+import { Box, Card, Flex, Text } from "@chakra-ui/react";
 import { LoadingImage } from "../misc/LoadingImage";
 import CardStepper from "./CardStepper";
+import CartDelete from "./CartDelete";
 
 export default function CartDisplay() {
   const { isPending, isError, error, data } = useFetchCart();
@@ -74,15 +74,7 @@ export default function CartDisplay() {
               <div style={{ flex: 1 }}></div>
               <CardStepper i={i} />
             </Flex>
-            <Box>
-              <IconButton
-                aria-label="Delete Cart Item"
-                size={"2xs"}
-                colorPalette={"red"}
-              >
-                <Trash2 />
-              </IconButton>
-            </Box>
+            <CartDelete id={i._id} />
           </Card.Root>
         );
       })}
