@@ -1,4 +1,4 @@
-import { useFetchCart } from "@/hooks/add2Cart";
+import { useFetchCart } from "@/hooks/cart";
 import CartEmpty from "./CartEmpty";
 
 export default function CartDisplay() {
