@@ -48,23 +48,6 @@ export const addressAddFn = async (data: TAddress) => {
     });
 };
 
-export const fetchAddress = async () => {
-  return await fetch("/api/address", {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      if (!res.status) {
-        throw new Error("Failed to fetch address");
-      }
-      return res.address;
-    });
-};
-
 export const editAddress = async (id: string, data: TAddress) => {
   return await fetch("/api/address/" + id, {
     method: "PUT",

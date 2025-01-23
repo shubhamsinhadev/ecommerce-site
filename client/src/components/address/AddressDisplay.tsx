@@ -1,15 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
 import { EmptyState } from "../ui/empty-state";
 import { FaRegAddressBook } from "react-icons/fa";
-import { fetchAddress, TAddressData } from "@/utils/address";
 import { Center, Flex, Spinner } from "@chakra-ui/react";
 import AddressCard from "./AddressCard";
+import { useFetchAddress } from "@/hooks/address";
 
 export default function AddressDisplay() {
-  const { isPending, isError, data, error } = useQuery<TAddressData[]>({
-    queryKey: ["address"],
-    queryFn: fetchAddress,
-  });
+  const { isPending, isError, data, error } = useFetchAddress();
 
   if (isPending)
     return (

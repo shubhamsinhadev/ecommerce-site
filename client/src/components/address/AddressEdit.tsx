@@ -20,7 +20,7 @@ import {
 } from "@/utils/address";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toaster } from "../ui/toaster";
 import AddressField from "./AddressField";
 
@@ -29,6 +29,7 @@ export default function AddressEdit({
 }: {
   addressData: TAddressData;
 }) {
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
 
   const mutation = useMutation({
@@ -40,10 +41,15 @@ export default function AddressEdit({
         type: "error",
       });
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toaster.create({
         title: `Address Edited Successfully`,
         type: "success",
+      });
+      queryClient.setQueryData(["address"], (old: TAddressData[]) => {
+        return old.map((a) =>
+          a._id === addressData._id ? { ...a, ...data } : a
+        );
       });
     },
     onSettled: () => setOpen(false),

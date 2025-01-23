@@ -42,7 +42,10 @@ export const updateAddress = async (
 
   const address = await Address.findOneAndUpdate(
     { userId, _id: addressId },
-    addressData
+    addressData,
+    {
+      new: true,
+    }
   );
 
   res.json({ status: true, address });

@@ -13,8 +13,8 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { IconButton } from "@chakra-ui/react";
-import { delAddress } from "@/utils/address";
-import { useMutation } from "@tanstack/react-query";
+import { delAddress, TAddressData } from "@/utils/address";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toaster } from "../ui/toaster";
 
 export default function AddressDelete({
@@ -25,6 +25,7 @@ export default function AddressDelete({
   id: string;
 }) {
   const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: () => delAddress(id),
@@ -39,6 +40,10 @@ export default function AddressDelete({
       toaster.create({
         title: `Address Deleted Successfully`,
         type: "success",
+      });
+
+      queryClient.setQueryData(["address"], (old: TAddressData[]) => {
+        return old.filter((a) => a._id !== id);
       });
     },
     onSettled: () => setOpen(false),

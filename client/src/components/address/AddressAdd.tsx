@@ -2,10 +2,11 @@ import {
   addressAddFn,
   addressFields,
   TAddress,
+  TAddressData,
   ZAddress,
 } from "@/utils/address";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toaster } from "../ui/toaster";
@@ -23,6 +24,7 @@ import AddressField from "./AddressField";
 
 export default function AddressAdd() {
   const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const {
     control,
@@ -42,10 +44,13 @@ export default function AddressAdd() {
         type: "error",
       });
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toaster.create({
         title: `Address Added Successfully`,
         type: "success",
+      });
+      queryClient.setQueryData(["address"], (old: TAddressData[]) => {
+        return [...old, data];
       });
     },
     onSettled: () => setOpen(false),
