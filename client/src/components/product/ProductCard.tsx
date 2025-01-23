@@ -1,10 +1,9 @@
 import { IProduct } from "@/utils/productType";
-import { Card, Flex, Text } from "@chakra-ui/react";
+import { Card, Box, Flex, Text } from "@chakra-ui/react";
 import { Hash } from "lucide-react";
 import { Link } from "react-router";
-import { useState } from "react";
-import { Skeleton } from "../ui/skeleton";
 import Add2Cart from "../button/Add2Cart";
+import { LoadingImage } from "../misc/LoadingImage";
 
 export default function ProductCard({ product }: { product: IProduct }) {
   return (
@@ -16,7 +15,10 @@ export default function ProductCard({ product }: { product: IProduct }) {
       flexDir={"column"}
       gap={2}
     >
-      <ProductImage src={product.image} title={product.title} />
+      <Box aspectRatio={"square"} w={"100%"}>
+        <LoadingImage src={product.image} title={product.title} />
+      </Box>
+
       <Link
         to={{
           search: `?category=${product.category}`,
@@ -51,24 +53,4 @@ export default function ProductCard({ product }: { product: IProduct }) {
   );
 }
 
-const ProductImage = ({ src, title }: { src: string; title: string }) => {
-  const [isLoading, setIsLoading] = useState(true);
 
-  return (
-    <>
-      <img
-        src={src}
-        alt={title}
-        style={{
-          aspectRatio: "1/1",
-          width: "100%",
-          objectFit: "contain",
-          visibility: isLoading ? "hidden" : "visible",
-          position: isLoading ? "absolute" : "relative",
-        }}
-        onLoad={() => setIsLoading(false)}
-      />
-      {isLoading && <Skeleton aspectRatio={"1/1"} />}
-    </>
-  );
-};

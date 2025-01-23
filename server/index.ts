@@ -4,7 +4,7 @@ import "./utils/dbConnect";
 import productRouter from "./router/productRouter";
 import { errorHandler, routeNotFound } from "./utils/errorFn";
 import cors from "cors";
-import passport from "passport";
+import passport, { use } from "passport";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -14,6 +14,8 @@ import cartRouter from "./router/cartRouter";
 import addressRouter from "./router/addressRouter";
 import reviewRouter from "./router/reviewRouter";
 import { delay } from "./utils/delay";
+import Cart, { ZCart } from "./model/cartModel";
+import { ZMongoId } from "./utils/zod";
 
 const app = express();
 
@@ -44,7 +46,14 @@ app.use(passport.session());
 app.use(delay); // Only for development
 
 app.get("/", async (req, res) => {
-  res.send("Hello, World!");
+  const cart = await Cart.findOneAndUpdate(
+    {
+      _id: "678ea7b80f217fcfa54a2674",
+      userId: "678e84683078589b8890c2b3",
+    },
+    {}
+  );
+  res.json({ message: "Hello, World!", cart });
 });
 
 app.use("/api/auth", authRouter);

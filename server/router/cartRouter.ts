@@ -12,11 +12,8 @@ const cartRouter = express.Router();
 
 cartRouter.use(isAuthenticated);
 
-cartRouter
-  .route("/")
-  .get(wrap(getCart))
-  .post(wrap(addCart))
-  .put(wrap(updateCart))
-  .delete(wrap(deleteCart));
+cartRouter.route("/").get(wrap(getCart)).post(wrap(addCart));
+
+cartRouter.route("/:id").put(wrap(updateCart)).delete(wrap(deleteCart));
 
 export default cartRouter;

@@ -10,7 +10,7 @@ export const getCart = async (
 ) => {
   const { userId } = req.user as { userId: string };
 
-  const cart = await Cart.find({ userId });
+  const cart = await Cart.find({ userId }).populate({ path: "product" });
 
   res.json({ status: true, cart });
 };
@@ -34,14 +34,12 @@ export const updateCart = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { userId } = req.user as { userId: string };
+  const { id } = req.params as { id: string };
 
-  const cartData = await ZCart.parseAsync(req.body);
+  const { quantity } = await ZCart.parseAsync(req.body);
 
-  const { productId, quantity } = cartData;
-
-  const cart = await Cart.findOneAndUpdate(
-    { userId, productId },
+  const cart = await Cart.findByIdAndUpdate(
+    id,
     { quantity },
     {
       new: true,
@@ -58,11 +56,9 @@ export const deleteCart = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { userId } = req.user as { userId: string };
+  const { id } = req.params as { id: string };
 
-  const productId = await ZMongoId.parseAsync(req.body.productId);
-
-  const cart = await Cart.findOneAndDelete({ userId, productId });
+  const cart = await Cart.findByIdAndDelete(id);
 
   if (!cart) throw new CustomError("Error while deleting", 404);
 
