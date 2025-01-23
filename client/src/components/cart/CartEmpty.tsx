@@ -1,7 +1,7 @@
 import { LuShoppingCart } from "react-icons/lu";
 import { EmptyState } from "../ui/empty-state";
 
-export default function Cart() {
+export default function CartEmpty() {
   return (
     <>
       <EmptyState

@@ -1,10 +1,10 @@
 import { IProduct } from "@/utils/productType";
 import { Card, Flex, Text } from "@chakra-ui/react";
-import { Button } from "../ui/button";
 import { Hash } from "lucide-react";
 import { Link } from "react-router";
 import { useState } from "react";
 import { Skeleton } from "../ui/skeleton";
+import Add2Cart from "../button/Add2Cart";
 
 export default function ProductCard({ product }: { product: IProduct }) {
   return (
@@ -46,7 +46,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
           maximumFractionDigits: 2,
         }).format(product.price)}
       </Text>
-      <Button colorPalette={"blue"}>Add to Cart</Button>
+      <Add2Cart product={product} />
     </Card.Root>
   );
 }

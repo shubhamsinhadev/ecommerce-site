@@ -1,4 +1,4 @@
-import { Center, Text } from "@chakra-ui/react";
+import { Center, Spinner, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { Avatar } from "../ui/avatar";
 import { DataListItem, DataListRoot } from "../ui/data-list";
@@ -27,7 +27,12 @@ export default function UserProfile() {
     queryFn: fetchUser,
   });
 
-  if (isPending) return <div>Loading....</div>;
+  if (isPending)
+    return (
+      <Center h={92} w={"100%"}>
+        <Spinner size="xl" color="colorPalette.600" colorPalette={"blue"} />
+      </Center>
+    );
   if (isError) return <div>Error: {error.message}</div>;
   if (!data) return <div>Something went wrong</div>;
 
