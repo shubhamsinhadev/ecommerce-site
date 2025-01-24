@@ -1,4 +1,5 @@
 import { toaster } from "@/components/ui/toaster";
+import axiosAPI from "@/utils/axios";
 import { IProduct } from "@/utils/productType";
 import { TMongoDb } from "@/utils/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -14,20 +15,9 @@ export function useFetchCart() {
   return useQuery<TCartData[]>({
     queryKey: ["cart"],
     queryFn: async () =>
-      await fetch("/api/cart", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (!res.status) {
-            throw new Error("Failed to fetch cart");
-          }
-          return res.cart;
-        }),
+      await axiosAPI("/cart").then((res) => {
+        return res.data.cart;
+      }),
   });
 }
 
