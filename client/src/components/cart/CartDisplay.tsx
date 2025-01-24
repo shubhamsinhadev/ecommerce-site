@@ -3,7 +3,7 @@ import CartEmpty from "./CartEmpty";
 import { Box, Card, Flex, Text } from "@chakra-ui/react";
 import { LoadingImage } from "../misc/LoadingImage";
 import CartDelete from "./CartDelete";
-import CartStepper from "./CardStepper";
+import CartStepper from "./CartStepper";
 export default function CartDisplay() {
   const { isPending, isError, error, data } = useFetchCart();
 
