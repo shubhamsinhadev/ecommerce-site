@@ -1,11 +1,11 @@
-import { Circle, Float, IconButton } from "@chakra-ui/react";
+import { Circle, Float, IconButton, Spinner } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
 import { ShoppingBag } from "lucide-react";
 import { useFetchCart } from "@/hooks/cart";
 
 export default function CartIcon() {
   const navigate = useNavigate();
-  const { data } = useFetchCart();
+  const { isPending, data } = useFetchCart();
 
   const total = data ? data.length : 0;
 
@@ -22,7 +22,11 @@ export default function CartIcon() {
       <ShoppingBag />
       <Float offsetX={2} offsetY={1.5}>
         <Circle size="5" bg="blue.600" color="white">
-          {total}
+          {isPending ? (
+            <Spinner size="xs" color="white" colorPalette={"white"} />
+          ) : (
+            total
+          )}
         </Circle>
       </Float>
     </IconButton>
