@@ -1,8 +1,10 @@
 import { toaster } from "@/components/ui/toaster";
+import { addCart, deleteCart, fetchCart, updateCart } from "@/redux/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import axiosAPI from "@/utils/axios";
 import { IProduct } from "@/utils/productType";
 import { TMongoDb } from "@/utils/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export type TCart = {
   productId: string;
@@ -12,34 +14,29 @@ export type TCart = {
 export type TCartData = TCart & TMongoDb & { product: IProduct };
 
 export function useFetchCart() {
-  return useQuery<TCartData[]>({
+  const dispatch = useAppDispatch();
+
+  const data = useAppSelector((state) => state.cart);
+
+  const query = useQuery<TCartData[]>({
     queryKey: ["cart"],
     queryFn: async () =>
-      await axiosAPI("/cart").then((res) => {
+      await axiosAPI("/api/cart").then((res) => {
+        dispatch(fetchCart(res.data.cart));
         return res.data.cart;
       }),
   });
+
+  return { ...query, data };
 }
 
-export function useAdd2Cart(product: IProduct) {
-  const queryClient = useQueryClient();
+export function useAddCart(product: IProduct) {
+  const dispatch = useAppDispatch();
   return useMutation({
     mutationFn: async () =>
-      await fetch("/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ productId: product._id }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (!res.status) {
-            throw new Error("Failed to fetch cart");
-          }
-          return res.cart;
-        }),
+      await axiosAPI
+        .post("/api/cart", { productId: product._id })
+        .then((res) => res.data.cart),
     onError: (error) => {
       toaster.create({
         title: `Failed to add to cart`,
@@ -48,51 +45,23 @@ export function useAdd2Cart(product: IProduct) {
       });
     },
     onSuccess: (data: TCart & TMongoDb) => {
+      dispatch(addCart({ ...data, product }));
       toaster.create({
         title: `Address to Cart Successfully`,
         type: "success",
       });
-
-      queryClient.setQueryData(
-        ["cart"],
-        (old: TCartData[] | undefined): TCartData[] => {
-          if (!Array.isArray(old)) return [];
-
-          const idx = old.findIndex((i) => i.productId === product._id);
-
-          if (idx !== -1) {
-            return old.map((i) =>
-              i.productId === product._id ? { ...data, product } : i
-            );
-          }
-          console.log(old);
-
-          return [...old, { ...data, product }];
-        }
-      );
     },
   });
 }
 
 export function useUpdateCart(newCart: TCartData) {
-  const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
+  const { productId } = newCart;
   return useMutation({
-    mutationFn: async (cartData: { productId: string; quantity: string }) =>
-      await fetch("/api/cart/" + newCart._id, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(cartData),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (!res.status) {
-            throw new Error(res.message);
-          }
-          return res.cart;
-        }),
+    mutationFn: async (quantity: string) =>
+      await axiosAPI
+        .put("/api/cart/" + newCart._id, { productId, quantity })
+        .then((res) => res.data.cart),
     onError: (error) => {
       toaster.create({
         title: `Failed to update cart`,
@@ -100,41 +69,21 @@ export function useUpdateCart(newCart: TCartData) {
         type: "error",
       });
     },
-    onSuccess: () => {
+    onSuccess: (data: TCart) => {
+      dispatch(updateCart({ ...newCart, ...data }));
       toaster.create({
         title: `Updated Cart Successfully`,
         type: "success",
       });
-
-      queryClient.setQueryData(
-        ["cart"],
-        (old: TCartData[] | undefined): TCartData[] => {
-          if (!Array.isArray(old)) return [];
-          return old.map((p) => (p._id === newCart._id ? newCart : p));
-        }
-      );
     },
   });
 }
 
 export function useCartDel(id: string) {
-  const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   return useMutation({
     mutationFn: async () =>
-      await fetch("/api/cart/" + id, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (!res.status) {
-            throw new Error(res.message);
-          }
-          return res.cart;
-        }),
+      await axiosAPI.delete("/api/cart/" + id).then((res) => res.data),
     onError: (error) => {
       toaster.create({
         title: `Failed to delete`,
@@ -143,18 +92,11 @@ export function useCartDel(id: string) {
       });
     },
     onSuccess: () => {
+      dispatch(deleteCart(id));
       toaster.create({
         title: `Deleted Successfully`,
         type: "success",
       });
-
-      queryClient.setQueryData(
-        ["cart"],
-        (old: TCartData[] | undefined): TCartData[] => {
-          if (!Array.isArray(old)) return [];
-          return old.filter((p) => p._id !== id);
-        }
-      );
     },
   });
 }

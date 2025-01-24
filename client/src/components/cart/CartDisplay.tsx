@@ -2,8 +2,8 @@ import { useFetchCart } from "@/hooks/cart";
 import CartEmpty from "./CartEmpty";
 import { Box, Card, Flex, Text } from "@chakra-ui/react";
 import { LoadingImage } from "../misc/LoadingImage";
-import CardStepper from "./CardStepper";
 import CartDelete from "./CartDelete";
+import CartStepper from "./CardStepper";
 export default function CartDisplay() {
   const { isPending, isError, error, data } = useFetchCart();
 
@@ -72,7 +72,7 @@ export default function CartDisplay() {
                 }).format(product.price)}
               </Text>
               <div style={{ flex: 1 }}></div>
-              <CardStepper i={i} />
+              <CartStepper i={i} />
             </Flex>
             <CartDelete id={i._id} />
           </Card.Root>

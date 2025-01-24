@@ -1,9 +1,9 @@
 import { IProduct } from "@/utils/productType";
 import { Button } from "../ui/button";
-import { useAdd2Cart } from "@/hooks/cart";
+import { useAddCart } from "@/hooks/cart";
 
 export default function Add2Cart({ product }: { product: IProduct }) {
-  const mutation = useAdd2Cart(product);
+  const mutation = useAddCart(product);
 
   const handleSubmit = () => {
     mutation.mutate();

@@ -12,7 +12,7 @@ export const getCart = async (
 
   const cart = await Cart.find({ userId }).populate({ path: "product" });
 
-  res.json(cart);
+  res.json({ status: true, cart });
 };
 
 export const addCart = async (
