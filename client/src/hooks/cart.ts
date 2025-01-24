@@ -32,11 +32,12 @@ export function useFetchCart() {
 
 export function useAddCart(product: IProduct) {
   const dispatch = useAppDispatch();
+  const productId = product._id;
   return useMutation({
-    mutationFn: async () =>
-      await axiosAPI
-        .post("/api/cart", { productId: product._id })
-        .then((res) => res.data.cart),
+    mutationFn: async () => {
+      const { data } = await axiosAPI.post("/api/cart", { productId });
+      return data.cart;
+    },
     onError: (error) => {
       toaster.create({
         title: `Failed to add to cart`,
@@ -56,12 +57,12 @@ export function useAddCart(product: IProduct) {
 
 export function useUpdateCart(newCart: TCartData) {
   const dispatch = useAppDispatch();
-  const { productId } = newCart;
+  const { _id } = newCart;
   return useMutation({
-    mutationFn: async (quantity: string) =>
-      await axiosAPI
-        .put("/api/cart/" + newCart._id, { productId, quantity })
-        .then((res) => res.data.cart),
+    mutationFn: async (quantity: string) => {
+      const { data } = await axiosAPI.put(`/api/cart/${_id}`, { quantity });
+      return data.cart;
+    },
     onError: (error) => {
       toaster.create({
         title: `Failed to update cart`,

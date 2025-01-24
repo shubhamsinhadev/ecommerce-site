@@ -15,11 +15,10 @@ const cartSlice = createSlice({
     },
     updateCart: (state, action: PayloadAction<TCartData>) => {
       const update = action.payload;
-
-      return state.map((cart) => (cart._id === update._id ? update : cart));
+      return state.map((i) => (i._id === update._id ? update : i));
     },
     deleteCart: (state, action: PayloadAction<TCartData["_id"]>) => {
-      return state.filter((cart) => cart._id !== action.payload);
+      return state.filter((i) => i._id !== action.payload);
     },
   },
 });
