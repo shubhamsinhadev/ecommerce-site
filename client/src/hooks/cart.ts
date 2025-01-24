@@ -83,8 +83,10 @@ export function useUpdateCart(newCart: TCartData) {
 export function useCartDel(id: string) {
   const dispatch = useAppDispatch();
   return useMutation({
-    mutationFn: async () =>
-      await axiosAPI.delete("/api/cart/" + id).then((res) => res.data),
+    mutationFn: async () => {
+      const { data } = await axiosAPI.delete(`/api/cart/${id}`);
+      return data;
+    },
     onError: (error) => {
       toaster.create({
         title: `Failed to delete`,
