@@ -22,6 +22,10 @@ export default function UserIcon() {
             colorPalette={"blue"}
             variant={"ghost"}
             height={"100%"}
+            _hover={{
+              bg: "blue.600",
+              color: "white",
+            }}
           >
             <CircleUserRound />
           </IconButton>

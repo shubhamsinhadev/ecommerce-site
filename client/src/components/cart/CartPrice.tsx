@@ -1,7 +1,7 @@
 import { useAppSelector } from "@/redux/hooks";
 import { Card, Flex, Separator, Text } from "@chakra-ui/react";
 import { InfoTip } from "../ui/toggle-tip";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { Button } from "../ui/button";
 
 type IList = { label: string; value: number; content?: ReactNode };
@@ -51,8 +51,8 @@ export default function CartPrice() {
       gap={4}
     >
       {List.map(({ label, value, content }, idx) => (
-        <>
-          <Flex alignItems={"center"} key={label}>
+        <React.Fragment key={label}>
+          <Flex alignItems={"center"}>
             <Text color={"gray.800"}>{label}</Text>
             {content && <InfoTip content={content} />}
             <div style={{ flex: 1 }}></div>
@@ -66,7 +66,7 @@ export default function CartPrice() {
             </Text>
           </Flex>
           {idx == 2 && <Separator mx={0} />}
-        </>
+        </React.Fragment>
       ))}
       <>
         <Separator mx={-4} />

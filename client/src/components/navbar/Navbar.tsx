@@ -39,6 +39,10 @@ export default function Navbar() {
             variant={"ghost"}
             height={"100%"}
             onClick={() => navigate("/")}
+            _hover={{
+              bg: "blue.600",
+              color: "white",
+            }}
           >
             <Package />
           </IconButton>
