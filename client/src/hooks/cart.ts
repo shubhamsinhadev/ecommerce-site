@@ -59,6 +59,7 @@ export function useUpdateCart(newCart: TCartData) {
   const dispatch = useAppDispatch();
   const { _id } = newCart;
   return useMutation({
+    mutationKey: ["cart/update", _id],
     mutationFn: async (quantity: string) => {
       const { data } = await axiosAPI.put(`/api/cart/${_id}`, { quantity });
       return data.cart;
@@ -83,6 +84,7 @@ export function useUpdateCart(newCart: TCartData) {
 export function useCartDel(id: string) {
   const dispatch = useAppDispatch();
   return useMutation({
+    mutationKey: ["cart/del", id],
     mutationFn: async () => {
       const { data } = await axiosAPI.delete(`/api/cart/${id}`);
       return data;
