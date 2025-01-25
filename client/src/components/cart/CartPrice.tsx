@@ -2,6 +2,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { Card, Flex, Separator, Text } from "@chakra-ui/react";
 import { InfoTip } from "../ui/toggle-tip";
 import { ReactNode } from "react";
+import { Button } from "../ui/button";
 
 type IList = { label: string; value: number; content?: ReactNode };
 
@@ -64,9 +65,15 @@ export default function CartPrice() {
               }).format(value)}
             </Text>
           </Flex>
-          {idx == 2 && <Separator mx={-4} />}
+          {idx == 2 && <Separator mx={0} />}
         </>
       ))}
+      <>
+        <Separator mx={-4} />
+        <Button colorPalette={"blue"} size={"lg"}>
+          Checkout
+        </Button>
+      </>
     </Card.Root>
   );
 }
