@@ -68,7 +68,7 @@ export default function AddressAdd() {
       size={"md"}
     >
       <DialogTrigger asChild>
-        <Button colorPalette={"blue"}>Click to add address</Button>
+        <Button colorPalette={"blue"}>Add New Address</Button>
       </DialogTrigger>
       <DialogContent w={"90%"}>
         <DialogHeader p={4}>

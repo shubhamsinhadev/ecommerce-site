@@ -30,7 +30,7 @@ export default function User() {
         rounded={"md"}
         display={"flex"}
         flexDir={"column"}
-        gap={2}
+        gap={4}
         shadow={"md"}
       >
         <Tabs.Root

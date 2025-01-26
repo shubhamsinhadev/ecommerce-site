@@ -3,11 +3,13 @@ import { Card, Flex, Separator, Text } from "@chakra-ui/react";
 import { InfoTip } from "../ui/toggle-tip";
 import React, { ReactNode } from "react";
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router";
 
 type IList = { label: string; value: number; content?: ReactNode };
 
 export default function CartPrice() {
   const data = useAppSelector((state) => state.cart);
+  const navigate = useNavigate();
 
   const price = data.reduce((acc: number, { product, quantity }) => {
     acc += product.price * quantity;
@@ -70,7 +72,11 @@ export default function CartPrice() {
       ))}
       <>
         <Separator mx={-4} />
-        <Button colorPalette={"blue"} size={"lg"}>
+        <Button
+          colorPalette={"blue"}
+          size={"lg"}
+          onClick={() => navigate("/checkout")}
+        >
           Checkout
         </Button>
       </>

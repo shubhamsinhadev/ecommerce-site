@@ -17,16 +17,16 @@ const AddressCard = ({ data }: { data: TAddressData }) => {
 
   return (
     <Card.Root
-      p={4}
+      p={2}
+      px={4}
       display={"flex"}
       flexDir={"column"}
       alignItems={"flex-start"}
-      gap={2}
       w={"100%"}
       pos="relative"
     >
-      <Flex alignItems={"end"} w={"100%"} gap={2}>
-        <Badge variant="solid" colorPalette="blue">
+      <Flex alignItems={"flex-start"} w={"100%"} gap={2}>
+        <Badge variant="subtle" colorPalette="blue">
           {data.addressType}
         </Badge>
         <div style={{ flex: 1 }}></div>
@@ -48,7 +48,7 @@ const AddressCard = ({ data }: { data: TAddressData }) => {
         </Text>
       </Flex>
 
-      <Text color="fg.muted" fontSize={"md"} lineClamp={3}>
+      <Text mt={2} color="fg.muted" fontSize={"md"} lineClamp={3}>
         {data.address}, {data.cityDistrictTown}, {data.state},{" "}
         <Text as="span" fontWeight={"bold"}>
           {data.pincode}

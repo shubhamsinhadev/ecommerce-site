@@ -1,6 +1,6 @@
 import { EmptyState } from "../ui/empty-state";
 import { FaRegAddressBook } from "react-icons/fa";
-import { Center, Flex, Spinner } from "@chakra-ui/react";
+import { Center, Grid, Spinner } from "@chakra-ui/react";
 import AddressCard from "./AddressCard";
 import { useFetchAddress } from "@/hooks/address";
 
@@ -20,10 +20,14 @@ export default function AddressDisplay() {
     return <EmptyState icon={<FaRegAddressBook />} title="No address Found" />;
 
   return (
-    <Flex flexDir={"column"} gap={4} my={4}>
+    <Grid
+      gap={4}
+      flexDir={"column"}
+      gridTemplateRows={`repeat(${data.length}, 1fr)`}
+    >
       {data.map((address) => (
         <AddressCard key={address._id} data={address} />
       ))}
-    </Flex>
+    </Grid>
   );
 }
