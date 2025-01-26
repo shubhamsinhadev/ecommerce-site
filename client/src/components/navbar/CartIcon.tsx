@@ -22,11 +22,7 @@ export default function CartIcon() {
       <ShoppingBag />
       <Float offsetX={2} offsetY={1.5}>
         <Circle size="5" bg="blue.600" color="white">
-          {isPending ? (
-            <Spinner size="xs" color="white" colorPalette={"white"} />
-          ) : (
-            total
-          )}
+          {isPending ? <Spinner size="xs" /> : total}
         </Circle>
       </Float>
     </IconButton>

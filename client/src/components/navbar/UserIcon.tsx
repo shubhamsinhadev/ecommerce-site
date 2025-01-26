@@ -9,9 +9,11 @@ import {
   MenuSeparator,
   MenuTrigger,
 } from "../ui/menu";
+import { useLogout } from "@/hooks/auth";
 
 export default function UserIcon() {
   const navigate = useNavigate();
+  const logoutFn = useLogout();
   return (
     <>
       <MenuRoot>
@@ -45,6 +47,12 @@ export default function UserIcon() {
             <MenuItem value="Orders">Orders</MenuItem>
             <MenuItem value="Cart" onClick={() => navigate("/cart")}>
               Cart
+            </MenuItem>
+          </MenuItemGroup>
+          <MenuSeparator />
+          <MenuItemGroup title="">
+            <MenuItem value="Account" onClick={() => logoutFn.mutate()}>
+              Logout
             </MenuItem>
           </MenuItemGroup>
         </MenuContent>
