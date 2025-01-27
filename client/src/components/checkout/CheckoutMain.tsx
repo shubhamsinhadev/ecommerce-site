@@ -1,12 +1,5 @@
-import { Box, Card, Group } from "@chakra-ui/react";
-import {
-  StepsItem,
-  StepsList,
-  StepsNextTrigger,
-  StepsPrevTrigger,
-  StepsRoot,
-} from "../ui/steps";
-import { Button } from "../ui/button";
+import { Box, Card, Spinner } from "@chakra-ui/react";
+import { StepsItem, StepsList, StepsRoot } from "../ui/steps";
 import { IndianRupee, MapPin, ReceiptText } from "lucide-react";
 import { useState } from "react";
 import CheckoutAddress from "./CheckoutAddress";
@@ -27,10 +20,33 @@ function CheckoutMain() {
     address: undefined,
   });
 
-  const isAddressSelected = !order.address ? true : false;
-
   if (addressLoading || cartLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Box
+        bg={"gray.100"}
+        w={"100%"}
+        display={"flex"}
+        flexDir={"column"}
+        alignItems={"center"}
+        gap={2}
+        minH={"calc(100dvh - 64px)"}
+        p={2}
+        pt={12}
+      >
+        <Card.Root
+          bgColor={"white"}
+          maxW={"lg"}
+          w={"100%"}
+          shadow={"sm"}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          aspectRatio={1 / 1}
+        >
+          <Spinner color="blue.500" size={"xl"} borderWidth="4px" />
+        </Card.Root>
+      </Box>
+    );
   }
 
   if (!cartData || cartData.length == 0) {
@@ -74,18 +90,6 @@ function CheckoutMain() {
           </StepsList>
           {step === 0 && <CheckoutAddress order={order} setOrder={setOrder} />}
           {step === 1 && <CheckoutSummary order={order} setOrder={setOrder} />}
-          <Group mt={4} justifyContent={"space-between"}>
-            <StepsPrevTrigger asChild>
-              <Button variant="outline" size="sm">
-                Back
-              </Button>
-            </StepsPrevTrigger>
-            <StepsNextTrigger asChild>
-              <Button variant="solid" size="sm" disabled={isAddressSelected}>
-                Next
-              </Button>
-            </StepsNextTrigger>
-          </Group>
         </StepsRoot>
       </Card.Root>
     </Box>

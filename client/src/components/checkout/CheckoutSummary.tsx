@@ -1,5 +1,13 @@
 import { IOrderProps } from "@/utils/orders";
-import { Card, Flex, Text, Box, Separator, Badge } from "@chakra-ui/react";
+import {
+  Card,
+  Flex,
+  Text,
+  Box,
+  Separator,
+  Badge,
+  Group,
+} from "@chakra-ui/react";
 import { LoadingImage } from "../misc/LoadingImage";
 import { TCartData, useFetchCart } from "@/hooks/cart";
 import CartStepper from "../cart/CartStepper";
@@ -7,6 +15,8 @@ import React, { ReactNode } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import { InfoTip } from "../ui/toggle-tip";
 import { TAddressData } from "@/utils/address";
+import { StepsNextTrigger, StepsPrevTrigger } from "../ui/steps";
+import { Button } from "../ui/button";
 
 export default function CheckoutSummary({ order, setOrder }: IOrderProps) {
   const { address } = order;
@@ -14,23 +24,37 @@ export default function CheckoutSummary({ order, setOrder }: IOrderProps) {
   const { data: cartData } = useFetchCart();
 
   return (
-    <Card.Root
-      shadow={"sm"}
-      w={"100%"}
-      display={"flex"}
-      flexDir={"column"}
-      gap={2}
-      p={4}
-    >
-      <CheckoutSummaryAddress data={address as TAddressData} />
-      {cartData.map((i) => (
-        <React.Fragment key={i.productId}>
-          <CheckoutSummaryCart i={i} />
-          <Separator mx={-4} />
-        </React.Fragment>
-      ))}
-      <CheckoutSummaryPrice />
-    </Card.Root>
+    <>
+      <Card.Root
+        shadow={"sm"}
+        w={"100%"}
+        display={"flex"}
+        flexDir={"column"}
+        gap={2}
+        p={4}
+      >
+        <CheckoutSummaryAddress data={address as TAddressData} />
+        {cartData.map((i) => (
+          <React.Fragment key={i.productId}>
+            <CheckoutSummaryCart i={i} />
+            <Separator mx={-4} />
+          </React.Fragment>
+        ))}
+        <CheckoutSummaryPrice />
+      </Card.Root>
+      <Group mt={4} justifyContent={"space-between"}>
+        <StepsPrevTrigger asChild>
+          <Button variant="outline" size="sm">
+            Back
+          </Button>
+        </StepsPrevTrigger>
+        <StepsNextTrigger asChild>
+          <Button variant="solid" size="sm">
+            Next
+          </Button>
+        </StepsNextTrigger>
+      </Group>
+    </>
   );
 }
 

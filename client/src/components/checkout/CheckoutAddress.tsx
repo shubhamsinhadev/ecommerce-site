@@ -7,6 +7,7 @@ import {
   Center,
   Flex,
   Grid,
+  Group,
   Spinner,
   Text,
 } from "@chakra-ui/react";
@@ -18,12 +19,27 @@ import AddressDelete from "../address/AddressDelete";
 import AddressEdit from "../address/AddressEdit";
 import { Checkbox } from "../ui/checkbox";
 import { IOrderProps } from "@/utils/orders";
+import { StepsNextTrigger, StepsPrevTrigger } from "../ui/steps";
+import { Button } from "../ui/button";
 
 export default function CheckoutAddress({ order, setOrder }: IOrderProps) {
+  const isAddressSelected = !order.address ? true : false;
   return (
     <>
       <CheckoutAddressDisplay order={order} setOrder={setOrder} />
       <AddressAdd />
+      <Group mt={4} justifyContent={"space-between"}>
+        <StepsPrevTrigger asChild>
+          <Button variant="outline" size="sm">
+            Back
+          </Button>
+        </StepsPrevTrigger>
+        <StepsNextTrigger asChild>
+          <Button variant="solid" size="sm" disabled={isAddressSelected}>
+            Next
+          </Button>
+        </StepsNextTrigger>
+      </Group>
     </>
   );
 }
