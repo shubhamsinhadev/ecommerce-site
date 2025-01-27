@@ -17,17 +17,18 @@ import { useState } from "react";
 import AddressDelete from "../address/AddressDelete";
 import AddressEdit from "../address/AddressEdit";
 import { Checkbox } from "../ui/checkbox";
+import { IOrderProps } from "@/utils/orders";
 
-export default function CheckoutAddress() {
+export default function CheckoutAddress({ order, setOrder }: IOrderProps) {
   return (
     <>
-      <CheckoutAddressDisplay />
+      <CheckoutAddressDisplay order={order} setOrder={setOrder} />
       <AddressAdd />
     </>
   );
 }
 
-function CheckoutAddressDisplay() {
+function CheckoutAddressDisplay({ order, setOrder }: IOrderProps) {
   const { isPending, isError, data, error } = useFetchAddress();
 
   if (isPending)
@@ -49,14 +50,31 @@ function CheckoutAddressDisplay() {
       gridTemplateRows={`repeat(${data.length}, 1fr)`}
     >
       {data.map((address) => (
-        <CheckoutAddressCard key={address._id} data={address} />
+        <CheckoutAddressCard
+          key={address._id}
+          data={address}
+          order={order}
+          setOrder={setOrder}
+        />
       ))}
     </Grid>
   );
 }
 
-const CheckoutAddressCard = ({ data }: { data: TAddressData }) => {
+const CheckoutAddressCard = ({
+  data,
+  order,
+  setOrder,
+}: IOrderProps & { data: TAddressData }) => {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
+
+  const isSelected = order.address?._id === data._id;
+
+  const handleChange = (value: boolean) => {
+    setOrder((prev) => {
+      return { ...prev, address: value ? data : undefined };
+    });
+  };
 
   return (
     <Card.Root
@@ -68,7 +86,10 @@ const CheckoutAddressCard = ({ data }: { data: TAddressData }) => {
       pos="relative"
       alignItems={"start"}
     >
-      <Checkbox />
+      <Checkbox
+        checked={isSelected}
+        onCheckedChange={(e) => handleChange(!!e.checked)}
+      />
       <Box display={"flex"} flexDir={"column"} gap={0} flex={1}>
         <Flex alignItems={"start"} w={"100%"} gap={2}>
           <Badge variant="subtle" colorPalette="blue">

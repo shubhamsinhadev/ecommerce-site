@@ -24,6 +24,7 @@ export const StepsItem = React.forwardRef<HTMLDivElement, StepsItemProps>(
           flexDir={"column"}
           alignItems={"center"}
           justifyContent={"center"}
+          disabled
         >
           <ChakraSteps.Indicator>
             <ChakraSteps.Status

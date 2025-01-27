@@ -10,9 +10,33 @@ import { Button } from "../ui/button";
 import { IndianRupee, MapPin, ReceiptText } from "lucide-react";
 import { useState } from "react";
 import CheckoutAddress from "./CheckoutAddress";
+import { useFetchAddress } from "@/hooks/address";
+import { IOrder } from "@/utils/orders";
+import { useFetchCart } from "@/hooks/cart";
+import CheckoutSummary from "./CheckoutSummary";
+import { Navigate } from "react-router";
 
 function CheckoutMain() {
   const [step, setStep] = useState(0);
+
+  const { isPending: cartLoading, data: cartData } = useFetchCart();
+  const { isPending: addressLoading } = useFetchAddress();
+
+  const [order, setOrder] = useState<IOrder>({
+    cart: undefined,
+    address: undefined,
+  });
+
+  const isAddressSelected = !order.address ? true : false;
+
+  if (addressLoading || cartLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!cartData || cartData.length == 0) {
+    return <Navigate to={"/cart"} />;
+  }
+
   return (
     <Box
       bg={"gray.100"}
@@ -48,7 +72,8 @@ function CheckoutMain() {
             <StepsItem index={1} title="Summary" icon={<ReceiptText />} />
             <StepsItem index={2} title="Payment" icon={<IndianRupee />} />
           </StepsList>
-          {step === 0 && <CheckoutAddress />}
+          {step === 0 && <CheckoutAddress order={order} setOrder={setOrder} />}
+          {step === 1 && <CheckoutSummary order={order} setOrder={setOrder} />}
           <Group mt={4} justifyContent={"space-between"}>
             <StepsPrevTrigger asChild>
               <Button variant="outline" size="sm">
@@ -56,7 +81,7 @@ function CheckoutMain() {
               </Button>
             </StepsPrevTrigger>
             <StepsNextTrigger asChild>
-              <Button variant="solid" size="sm">
+              <Button variant="solid" size="sm" disabled={isAddressSelected}>
                 Next
               </Button>
             </StepsNextTrigger>
