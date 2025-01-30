@@ -17,6 +17,7 @@ import { InfoTip } from "../ui/toggle-tip";
 import { TAddressData } from "@/utils/address";
 import { StepsNextTrigger, StepsPrevTrigger } from "../ui/steps";
 import { Button } from "../ui/button";
+import { MoveLeft, MoveRight } from "lucide-react";
 
 export default function CheckoutSummary({ order, setOrder }: IOrderProps) {
   const { address } = order;
@@ -45,12 +46,12 @@ export default function CheckoutSummary({ order, setOrder }: IOrderProps) {
       <Group mt={4} justifyContent={"space-between"}>
         <StepsPrevTrigger asChild>
           <Button variant="outline" size="sm">
-            Back
+            <MoveLeft /> Back
           </Button>
         </StepsPrevTrigger>
         <StepsNextTrigger asChild>
           <Button variant="solid" size="sm">
-            Next
+            Payment <MoveRight />
           </Button>
         </StepsNextTrigger>
       </Group>

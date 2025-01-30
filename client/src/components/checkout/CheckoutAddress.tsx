@@ -21,6 +21,7 @@ import { Checkbox } from "../ui/checkbox";
 import { IOrderProps } from "@/utils/orders";
 import { StepsNextTrigger, StepsPrevTrigger } from "../ui/steps";
 import { Button } from "../ui/button";
+import { MoveRight } from "lucide-react";
 
 export default function CheckoutAddress({ order, setOrder }: IOrderProps) {
   const isAddressSelected = !order.address ? true : false;
@@ -30,13 +31,13 @@ export default function CheckoutAddress({ order, setOrder }: IOrderProps) {
       <AddressAdd />
       <Group mt={4} justifyContent={"space-between"}>
         <StepsPrevTrigger asChild>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" visibility={"hidden"}>
             Back
           </Button>
         </StepsPrevTrigger>
         <StepsNextTrigger asChild>
           <Button variant="solid" size="sm" disabled={isAddressSelected}>
-            Next
+            Order Summary <MoveRight />
           </Button>
         </StepsNextTrigger>
       </Group>
