@@ -8,6 +8,7 @@ import { IOrder } from "@/utils/orders";
 import { useFetchCart } from "@/hooks/cart";
 import CheckoutSummary from "./CheckoutSummary";
 import { Navigate } from "react-router";
+import CheckoutPayment from "./CheckoutPayment";
 
 function CheckoutMain() {
   const [step, setStep] = useState(0);
@@ -90,6 +91,7 @@ function CheckoutMain() {
           </StepsList>
           {step === 0 && <CheckoutAddress order={order} setOrder={setOrder} />}
           {step === 1 && <CheckoutSummary order={order} setOrder={setOrder} />}
+          {step === 2 && <CheckoutPayment order={order} setOrder={setOrder} />}
         </StepsRoot>
       </Card.Root>
     </Box>

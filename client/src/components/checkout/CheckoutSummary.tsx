@@ -18,11 +18,16 @@ import { TAddressData } from "@/utils/address";
 import { StepsNextTrigger, StepsPrevTrigger } from "../ui/steps";
 import { Button } from "../ui/button";
 import { MoveLeft, MoveRight } from "lucide-react";
+import { Navigate } from "react-router";
 
 export default function CheckoutSummary({ order, setOrder }: IOrderProps) {
   const { address } = order;
 
   const { data: cartData } = useFetchCart();
+
+  if (!address || !cartData || cartData.length < 1) {
+    return <Navigate to={"/cart"} />;
+  }
 
   return (
     <>

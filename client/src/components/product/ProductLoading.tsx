@@ -4,13 +4,25 @@ import { Skeleton, SkeletonText } from "../ui/skeleton";
 const ProductLoading = () => {
   return (
     <Grid
-      templateColumns={{
-        base: "repeat(3, 1fr)",
-        md: "repeat(3, 1fr)",
-        lg: "repeat(4, 1fr)",
-      }}
       gap={3}
       flex={1}
+      css={{
+        "@media (min-width: 30em)": {
+          gridTemplateColumns: "repeat(2, 1fr)",
+        },
+        "@media (min-width: 40em)": {
+          gridTemplateColumns: "repeat(3, 1fr)",
+        },
+        "@media (min-width: 48em)": {
+          gridTemplateColumns: "repeat(2, 1fr)",
+        },
+        "@media (min-width: 56em)": {
+          gridTemplateColumns: "repeat(3, 1fr)",
+        },
+        "@media (min-width: 62em)": {
+          gridTemplateColumns: "repeat(4, 1fr)",
+        },
+      }}
     >
       {[...Array(12)].map((_, index) => (
         <Card.Root

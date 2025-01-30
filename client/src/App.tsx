@@ -11,6 +11,7 @@ import UserProfile from "./components/user/UserProfile";
 import OrderMain from "./components/orders/OrderMain";
 import CartDisplay from "./components/cart/CartDisplay";
 import CheckoutMain from "./components/checkout/CheckoutMain";
+import CompletePage from "./components/checkout/Complete";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/login" element={<LoginMain />} />
           <Route path="/registration" element={<RegistrationMain />} />
           <Route path="/checkout" element={<CheckoutMain />} />
+          <Route path="/complete" element={<CompletePage />} />
         </Route>
       </Routes>
       <Toaster />

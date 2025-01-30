@@ -14,6 +14,7 @@ import cartRouter from "./router/cartRouter";
 import addressRouter from "./router/addressRouter";
 import reviewRouter from "./router/reviewRouter";
 import { delay } from "./utils/delay";
+import orderRouter from "./router/orderRouter";
 
 const app = express();
 
@@ -52,6 +53,7 @@ app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/address", addressRouter);
 app.use("/api/review", reviewRouter);
+app.use("/api/order", orderRouter);
 
 app.use(routeNotFound);
 app.use(errorHandler);
