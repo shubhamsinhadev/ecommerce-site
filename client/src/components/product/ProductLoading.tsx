@@ -1,9 +1,17 @@
-import { Card } from "@chakra-ui/react";
+import { Card, Grid } from "@chakra-ui/react";
 import { Skeleton, SkeletonText } from "../ui/skeleton";
 
 const ProductLoading = () => {
   return (
-    <>
+    <Grid
+      templateColumns={{
+        base: "repeat(3, 1fr)",
+        md: "repeat(3, 1fr)",
+        lg: "repeat(4, 1fr)",
+      }}
+      gap={3}
+      flex={1}
+    >
       {[...Array(12)].map((_, index) => (
         <Card.Root
           key={index}
@@ -22,7 +30,7 @@ const ProductLoading = () => {
           <Skeleton height={"40px"} />
         </Card.Root>
       ))}
-    </>
+    </Grid>
   );
 };
 
