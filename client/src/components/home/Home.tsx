@@ -5,7 +5,12 @@ import CategoryFilter from "../product/CategoryFilter";
 
 function Home() {
   return (
-    <Box display={"flex"} maxW={"1200px"} mx={"auto"}>
+    <Box
+      display={"flex"}
+      maxW={"1200px"}
+      mx={"auto"}
+      minHeight={"calc(100vh - 64px)"}
+    >
       <FilterLg />
       <ProductMain />
     </Box>

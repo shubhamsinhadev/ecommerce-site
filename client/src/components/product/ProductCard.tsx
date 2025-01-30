@@ -14,6 +14,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
       display={"flex"}
       flexDir={"column"}
       gap={2}
+      maxHeight={"fit-content"}
     >
       <Box w={"100%"} aspectRatio={"1/1"}>
         <LoadingImage src={product.image} title={product.title} />
